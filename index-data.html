@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Data Analyst dari NOL — Roadmap 6 Bulan</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#10233d;
+    --navy-2:#16304f;
+    --paper:#f4f5f2;
+    --paper-line:#e4e6e0;
+    --ink:#1c2530;
+    --ink-soft:#5a6472;
+    --teal:#0f9d8c;
+    --teal-dark:#0b7a6c;
+    --amber:#f2a63c;
+    --coral:#e2604f;
+    --card:#ffffff;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      linear-gradient(var(--paper-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--paper-line) 1px, transparent 1px),
+      var(--paper);
+    background-size:28px 28px;
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.55;
+  }
+  h1,h2,h3,.disp{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{color:var(--teal-dark);}
+  .wrap{max-width:980px;margin:0 auto;padding:28px 20px 80px;}
+
+  /* ===== HEADER / TOPBAR ===== */
+  .topbar{
+    background:var(--navy);
+    color:#fff;
+    border-radius:var(--radius);
+    padding:26px 28px;
+    position:relative;
+    overflow:hidden;
+  }
+  .topbar::after{
+    content:"";
+    position:absolute; inset:0;
+    background:
+      repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 1px, transparent 1px 40px);
+    pointer-events:none;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--amber); margin:0 0 8px;
+  }
+  .topbar h1{font-size:28px; margin:0 0 6px; font-weight:700;}
+  .topbar p{margin:0; color:#c8d2de; max-width:560px; font-size:14.5px;}
+
+  /* KPI cards */
+  .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:22px; position:relative;}
+  .kpi{
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:8px; padding:12px 14px;
+  }
+  .kpi .num{font-family:'JetBrains Mono',monospace; font-size:22px; font-weight:700; color:#fff;}
+  .kpi .lab{font-size:11px; color:#9fb0c2; text-transform:uppercase; letter-spacing:.06em; margin-top:2px;}
+  .kpi .num.teal{color:#3ee0c8;}
+  .kpi .num.amber{color:var(--amber);}
+
+  /* ===== JOURNEY TRACK ===== */
+  .track-card{background:var(--card); border-radius:var(--radius); padding:22px 24px 26px; margin-top:16px; border:1px solid var(--paper-line);}
+  .track-card h3{margin:0 0 4px; font-size:15px;}
+  .track-card .sub{font-size:13px; color:var(--ink-soft); margin:0 0 20px;}
+  .track{display:flex; align-items:center; position:relative;}
+  .track-line{position:absolute; left:22px; right:22px; top:17px; height:3px; background:var(--paper-line); border-radius:2px; z-index:0;}
+  .track-line-fill{position:absolute; left:22px; top:17px; height:3px; background:var(--teal); border-radius:2px; z-index:1; transition:width .3s ease;}
+  .station{flex:1; text-align:center; position:relative; z-index:2; cursor:pointer; background:none; border:none; font:inherit; color:inherit;}
+  .station .dot{width:38px; height:38px; margin:0 auto 8px; border-radius:50%; background:#fff; border:3px solid var(--paper-line); display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-weight:700; font-size:13px; color:var(--ink-soft); transition:.2s;}
+  .station.done .dot{background:var(--teal); border-color:var(--teal); color:#fff;}
+  .station.active .dot{border-color:var(--amber); box-shadow:0 0 0 4px rgba(242,166,60,.18);}
+  .station .lab{font-size:11.5px; color:var(--ink-soft); font-weight:600;}
+  .station:hover .lab{color:var(--ink);}
+
+  /* ===== SECTION GENERIC ===== */
+  .section{margin-top:34px;}
+  .section-head{display:flex; align-items:baseline; gap:10px; margin-bottom:12px;}
+  .section-head h2{font-size:19px; margin:0;}
+  .section-head .tag{font-family:'JetBrains Mono',monospace; font-size:11px; background:var(--navy); color:#fff; padding:3px 8px; border-radius:5px;}
+
+  .method-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:12px;}
+  .method-card{background:var(--card); border:1px solid var(--paper-line); border-radius:var(--radius); padding:16px;}
+  .method-card .n{font-family:'JetBrains Mono',monospace; color:var(--teal-dark); font-size:12px; font-weight:700;}
+  .method-card h4{margin:6px 0 6px; font-size:14.5px;}
+  .method-card p{margin:0; font-size:13px; color:var(--ink-soft);}
+
+  /* ===== MONTH ACCORDION ===== */
+  .month{background:var(--card); border:1px solid var(--paper-line); border-radius:var(--radius); margin-bottom:14px; overflow:hidden;}
+  .month-head{
+    width:100%; text-align:left; background:none; border:none; cursor:pointer;
+    padding:18px 20px; display:flex; align-items:center; gap:16px; font:inherit; color:inherit;
+  }
+  .month-head .idx{font-family:'JetBrains Mono',monospace; font-size:22px; font-weight:700; color:var(--paper-line); width:42px; flex-shrink:0;}
+  .month.done .month-head .idx{color:var(--teal);}
+  .month-head .titles{flex:1;}
+  .month-head .titles .m-title{font-weight:700; font-size:15.5px;}
+  .month-head .titles .m-sub{font-size:12.5px; color:var(--ink-soft); margin-top:2px;}
+  .month-head .pct{font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--teal-dark); font-weight:700; flex-shrink:0;}
+  .month-head .chev{font-size:16px; color:var(--ink-soft); transition:transform .2s; flex-shrink:0;}
+  .month.open .month-head .chev{transform:rotate(180deg);}
+  .month-bar{height:4px; background:var(--paper-line);}
+  .month-bar-fill{height:4px; background:var(--teal); width:0%; transition:width .3s;}
+  .month-body{max-height:0; overflow:hidden; transition:max-height .35s ease;}
+  .month-body-in{padding:4px 20px 22px;}
+  .software-badges{display:flex; gap:8px; flex-wrap:wrap; margin:6px 0 16px;}
+  .badge{background:var(--paper); border:1px solid var(--paper-line); font-family:'JetBrains Mono',monospace; font-size:11.5px; padding:4px 9px; border-radius:6px; color:var(--ink-soft);}
+  .goal-box{background:#f0faf8; border:1px solid #c9ece5; border-radius:8px; padding:12px 14px; font-size:13.5px; margin-bottom:18px;}
+  .goal-box b{color:var(--teal-dark);}
+
+  .week{margin-bottom:16px; padding-bottom:16px; border-bottom:1px dashed var(--paper-line);}
+  .week:last-child{border-bottom:none; margin-bottom:0; padding-bottom:0;}
+  .week-title{font-size:13.5px; font-weight:700; margin-bottom:8px; color:var(--navy);}
+  .task{display:flex; align-items:flex-start; gap:10px; padding:6px 0; font-size:13.5px; flex-wrap:wrap;}
+  .task input{margin-top:3px; width:16px; height:16px; accent-color:var(--teal); flex-shrink:0; cursor:pointer;}
+  .task label{cursor:pointer; flex:1;}
+  .task.checked label{color:var(--ink-soft); text-decoration:line-through; text-decoration-color:var(--paper-line);}
+  .task .baca-btn{
+    background:none; border:1px solid var(--paper-line); border-radius:6px;
+    padding:2px 10px; font-size:11px; color:var(--ink-soft); cursor:pointer;
+    font-family:'Inter',sans-serif; transition:.2s;
+    flex-shrink:0; margin-left:auto;
+  }
+  .task .baca-btn:hover{
+    background:var(--navy); color:#fff; border-color:var(--navy);
+  }
+  .res{margin-top:8px; font-size:12.5px; color:var(--ink-soft);}
+  .res a{margin-right:10px; white-space:nowrap;}
+
+  .achieve{background:var(--navy); color:#fff; border-radius:8px; padding:14px 16px; margin-top:6px; font-size:13px;}
+  .achieve b{color:var(--amber);}
+
+  /* ===== FINAL PROJECT ===== */
+  .final{background:var(--navy); color:#fff; border-radius:var(--radius); padding:26px 28px; position:relative; overflow:hidden;}
+  .final::after{content:""; position:absolute; inset:0; background:repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 40px); pointer-events:none;}
+  .final h2{color:#fff; font-size:20px; margin:0 0 6px;}
+  .final p.lead{color:#c8d2de; font-size:14px; max-width:640px; margin:0 0 20px;}
+  .steps{display:grid; grid-template-columns:repeat(2,1fr); gap:12px;}
+  .step{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:8px; padding:14px 16px;}
+  .step .n{font-family:'JetBrains Mono',monospace; color:var(--amber); font-size:12px; font-weight:700;}
+  .step h4{margin:6px 0 6px; font-size:14px;}
+  .step p{margin:0; font-size:12.5px; color:#c8d2de;}
+  .deliverables{margin-top:18px; background:rgba(255,255,255,.06); border-radius:8px; padding:14px 16px; font-size:13px;}
+  .deliverables li{margin-bottom:5px;}
+
+  /* ===== FOOTER TIPS ===== */
+  .tips-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .tip-card{background:var(--card); border:1px solid var(--paper-line); border-radius:var(--radius); padding:16px;}
+  .tip-card h4{margin:0 0 8px; font-size:14px;}
+  .tip-card ul{margin:0; padding-left:18px; font-size:13px; color:var(--ink-soft);}
+  .tip-card li{margin-bottom:5px;}
+
+  .reset-row{text-align:center; margin-top:30px;}
+  .reset-btn{background:none; border:1px solid var(--paper-line); color:var(--ink-soft); font-size:12px; padding:8px 14px; border-radius:20px; cursor:pointer; font-family:'JetBrains Mono',monospace;}
+  .reset-btn:hover{border-color:var(--coral); color:var(--coral);}
+
+  /* ===== MODAL ===== */
+  .modal-overlay{
+    display:none; position:fixed; inset:0; z-index:9999;
+    background:rgba(16,35,61,.8); backdrop-filter:blur(4px);
+    justify-content:center; align-items:center; padding:20px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal-box{
+    background:var(--paper); border-radius:var(--radius);
+    max-width:720px; width:100%; max-height:85vh;
+    display:flex; flex-direction:column;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
+    border:1px solid var(--paper-line);
+  }
+  .modal-header{
+    padding:18px 24px; border-bottom:1px solid var(--paper-line);
+    display:flex; justify-content:space-between; align-items:center;
+    flex-shrink:0;
+  }
+  .modal-header h3{margin:0; font-size:16px; color:var(--navy);}
+  .modal-close{
+    background:none; border:none; font-size:24px; color:var(--ink-soft);
+    cursor:pointer; padding:0 6px; line-height:1;
+  }
+  .modal-close:hover{color:var(--coral);}
+  .modal-body{
+    padding:24px; overflow-y:auto; flex:1;
+    color:var(--ink); font-size:14.5px; line-height:1.7;
+  }
+  .modal-body h4{color:var(--navy); margin:20px 0 8px;}
+  .modal-body h4:first-child{margin-top:0;}
+  .modal-body ul, .modal-body ol{padding-left:22px;}
+  .modal-body li{margin-bottom:4px;}
+  .modal-body code{background:var(--paper-line); padding:1px 6px; border-radius:4px; font-size:13px;}
+  .modal-body pre{background:#fff; border:1px solid var(--paper-line); border-radius:6px; padding:12px 14px; overflow-x:auto; font-size:13px;}
+  .modal-body table{width:100%; border-collapse:collapse; font-size:13.5px; margin:10px 0;}
+  .modal-body table th, .modal-body table td{padding:8px; border:1px solid var(--paper-line); text-align:left;}
+  .modal-body table th{background:var(--paper);}
+
+  @media (max-width:720px){
+    .kpis{grid-template-columns:repeat(2,1fr);}
+    .method-grid{grid-template-columns:1fr;}
+    .steps{grid-template-columns:1fr;}
+    .tips-grid{grid-template-columns:1fr;}
+    .station .lab{font-size:10px;}
+    .track-line, .track-line-fill{left:14px; right:14px;}
+    .task .baca-btn{font-size:10px; padding:1px 8px; margin-left:0; margin-top:2px; width:100%; text-align:center;}
+    .task{flex-wrap:wrap;}
+    .modal-box{max-width:100%; max-height:90vh; margin:10px;}
+    .modal-body{font-size:13.5px; padding:16px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <p class="eyebrow">// roadmap_belajar.mandiri — 6 bulan, 0 biaya kursus</p>
+    <h1>Data Analyst dari NOL</h1>
+    <p>Sistem belajar mandiri untuk kamu yang benar-benar belum punya basic apapun. Semua materi di bawah ini 100% gratis. Centang setiap tugas untuk melacak progres — progresmu tersimpan otomatis.</p>
+    <div class="kpis">
+      <div class="kpi"><div class="num teal" id="kpi-pct">0%</div><div class="lab">Progres total</div></div>
+      <div class="kpi"><div class="num" id="kpi-tasks">0/0</div><div class="lab">Tugas selesai</div></div>
+      <div class="kpi"><div class="num amber" id="kpi-month">Bulan 1</div><div class="lab">Fokus saat ini</div></div>
+      <div class="kpi"><div class="num" id="kpi-tools">0/4</div><div class="lab">Software dikuasai</div></div>
+    </div>
+  </div>
+
+  <div class="track-card">
+    <h3>Peta perjalanan 6 bulan</h3>
+    <p class="sub">Klik salah satu stasiun untuk loncat ke bulan tersebut.</p>
+    <div class="track">
+      <div class="track-line"></div>
+      <div class="track-line-fill" id="track-fill"></div>
+      <button class="station" data-m="1"><div class="dot">1</div><div class="lab">Excel &amp;<br>Statistik</div></button>
+      <button class="station" data-m="2"><div class="dot">2</div><div class="lab">SQL &amp;<br>Database</div></button>
+      <button class="station" data-m="3"><div class="dot">3</div><div class="lab">Python &amp;<br>Pandas</div></button>
+      <button class="station" data-m="4"><div class="dot">4</div><div class="lab">Tableau /<br>Power BI</div></button>
+      <button class="station" data-m="5"><div class="dot">5</div><div class="lab">Statistik &amp;<br>Storytelling</div></button>
+      <button class="station" data-m="6"><div class="dot">6</div><div class="lab">Final<br>Project</div></button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><h2>Kenapa struktur ini efektif</h2><span class="tag">metodologi</span></div>
+    <div class="method-grid">
+      <div class="method-card"><div class="n">01</div><h4>Urutan sesuai beban kerja nyata</h4><p>Excel → SQL → Python → Visualisasi. Ini urutan tools yang paling sering dipakai data analyst di lapangan, dari yang paling ringan ke paling teknis, jadi kamu tidak kaget di tengah jalan.</p></div>
+      <div class="method-card"><div class="n">02</div><h4>70% praktik, 30% teori</h4><p>Tiap minggu ada tugas hands-on dengan dataset nyata, bukan cuma nonton video. Skill data analyst hanya terbentuk lewat mengotori tangan dengan data yang berantakan.</p></div>
+      <div class="method-card"><div class="n">03</div><h4>Proyek kecil tiap bulan</h4><p>Tiap bulan ditutup dengan mini-project yang bisa langsung masuk portofolio, bukan cuma latihan soal yang dibuang setelah selesai.</p></div>
+    </div>
+  </div>
+
+  <div class="section" id="months">
+    <div class="section-head"><h2>Rencana belajar bulanan</h2><span class="tag">6 bulan</span></div>
+
+    <!-- BULAN 1 -->
+    <div class="month" data-month="1">
+      <button class="month-head" data-toggle="1">
+        <div class="idx">01</div>
+        <div class="titles">
+          <div class="m-title">Fondasi Data + Excel / Google Sheets</div>
+          <div class="m-sub">Mengenal dunia data analyst dari nol dan menguasai tools paling dasar</div>
+        </div>
+        <div class="pct" data-pct="1">0%</div>
+        <div class="chev">▾</div>
+      </button>
+      <div class="month-bar"><div class="month-bar-fill" data-bar="1"></div></div>
+      <div class="month-body" data-body="1">
+        <div class="month-body-in">
+          <div class="software-badges"><span class="badge">Microsoft Excel</span><span class="badge">Google Sheets</span></div>
+          <div class="goal-box"><b>Target akhir bulan:</b> Kamu paham apa kerjaan harian data analyst, dan bisa mengolah data mentah di spreadsheet dari nol sampai jadi laporan dengan pivot table dan grafik.</div>
+
+          <div class="week">
+            <div class="week-title">Minggu 1 — Kenalan dengan profesi Data Analyst</div>
+            <div class="task"><input type="checkbox" id="t1-1"><label for="t1-1">Pahami alur kerja data analyst: ambil data → bersihkan → analisis → visualisasi → presentasi insight ke tim</label></div>
+            <div class="task"><input type="checkbox" id="t1-2"><label for="t1-2">Pahami bedanya Data Analyst vs Data Scientist vs Data Engineer</label></div>
+            <div class="task"><input type="checkbox" id="t1-3"><label for="t1-3">Tonton 3-5 video "day in the life data analyst" untuk gambaran nyata pekerjaan sehari-hari</label></div>
+            <div class="res">📺 <a href="https://www.youtube.com/@AlexTheAnalyst" target="_blank">YouTube: Alex The Analyst</a><a href="https://www.youtube.com/@LukeBarousse" target="_blank">Luke Barousse</a></div>
+          </div>
+
+          <div class="week">
+            <div class="week-title">Minggu 2 — Excel/Sheets dasar</div>
+            <div class="task"><input type="checkbox" id="t1-4"><label for="t1-4">Instal Excel atau pakai Google Sheets (gratis, cukup punya akun Google)</label></div>
+            <div class="task"><input type="checkbox" id="t1-5"><label for="t1-5">Kuasai formula dasar: SUM, AVERAGE, COUNT, COUNTIF, IF</label></div>
+            <div class="task"><input type="checkbox" id="t1-6"><label for="t1-6">Kuasai VLOOKUP/XLOOKUP dan cara menggabungkan data dari 2 tabel berbeda</label></div>
+            <div class="res">📺 <a href="https://www.youtube.com/@Kevin-Stratvert" target="_blank">Kevin Stratvert (Excel)</a><a href="https://www.youtube.com/@excelisfun" target="_blank">ExcelIsFun</a><a href="https://support.google.com/docs/topic/9054603" target="_blank">Bantuan Google Sheets</a></div>
+          </div>
+
+          <div class="week">
+            <div class="week-title">Minggu 3 — Pivot Table &amp; visualisasi dasar</div>
+            <div class="task"><input type="checkbox" id="t1-7"><label for="t1-7">Buat Pivot Table dari dataset sederhana (misal data penjualan)</label></div>
+            <div class="task"><input type="checkbox" id="t1-8"><label for="t1-8">Buat chart: bar, line, pie — dan pahami kapan pakai yang mana</label></div>
+            <div class="task"><input type="checkbox" id="t1-9"><label for="t1-9">Coba conditional formatting untuk highlight data penting</label></div>
+          </div>
+
+          <div class="week">
+            <div class="week-title">Minggu 4 — Statistik dasar + Mini Project</div>
+            <div class="task"><input type="checkbox" id="t1-10"><label for="t1-10">Pahami mean, median, modus, dan standar deviasi — tanpa rumus njelimet, cukup logikanya</label></div>
+            <div class="task"><input type="checkbox" id="t1-11"><label for="t1-11"><b>Mini Project:</b> download 1 dataset gratis dari Kaggle (misal data penjualan retail), buat laporan ringkas di Excel/Sheets lengkap dengan pivot table + 3 chart + kesimpulan singkat</label></div>
+            <div class="res">📊 <a href="https://www.kaggle.com/datasets" target="_blank">Kaggle Datasets (gratis)</a></div>
+          </div>
+
+          <div class="achieve">🏁 <b>Checkpoint Bulan 1:</b> Kamu sudah bisa mengubah data mentah jadi laporan sederhana dengan Excel/Sheets — skill yang dipakai hampir di semua pekerjaan kantoran, bukan cuma data analyst.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BULAN 2 -->
+    <div class="month" data-month="2">
+      <button class="month-head" data-toggle="2">
+        <div class="idx">02</div>
+        <div class="titles">
+          <div class="m-title">SQL &amp; Database</div>
+          <div class="m-sub">Belajar mengambil data langsung dari sumbernya, skill wajib di hampir semua lowongan</div>
+        </div>
+        <div class="pct" data-pct="2">0%</div>
+        <div class="chev">▾</div>
+      </button>
+      <div class="month-bar"><div class="month-bar-fill" data-bar="2"></div></div>
+      <div class="month-body" data-body="2">
+        <div class="month-body-in">
+          <div class="software-badges"><span class="badge">SQL (PostgreSQL/SQLite)</span></div>
+          <div class="goal-box"><b>Target akhir bulan:</b> Kamu bisa menulis query SQL dari yang sederhana sampai gabungan beberapa tabel untuk menjawab pertanyaan bisnis.</div>
+
+          <div class="week">
+            <div class="week-title">Minggu 1 — Dasar SQL</div>
+            <div class="task"><input type="checkbox" id="t2-1"><label for="t2-1">Pahami konsep database, tabel, baris (row), dan kolom (column)</label></div>
+            <div class="task"><input type="checkbox" id="t2-2"><label for="t2-2">Kuasai SELECT, WHERE, ORDER BY, LIMIT lewat latihan interaktif di browser (tidak perlu install apapun dulu)</label></div>
+            <div class="res">💻 <a href="https://sqlbolt.com" target="_blank">SQLBolt (interaktif, gratis)</a><a href="https://www.w3schools.com/sql" target="_blank">W3Schools SQL</a></div>
+          </div>
+
+          <div class="week">
+            <div class="week-title">Minggu 2 — JOIN &amp; Aggregate</div>
+            <div class="task"><input type="checkbox" id="t2-3"><label for="t2-3">Pahami dan praktikkan INNER JOIN, LEFT JOIN</label></div>
+            <div class="task"><input type="checkbox" id="t2-4"><label for="t2-4">Kuasai GROUP BY, HAVING, dan fungsi agregat (SUM, COUNT, AVG, MAX, MIN)</label></div>
+            <div class="res">💻 <a href="https://mode.com/sql-tutorial" target="_blank">Mode SQL Tutorial</a></div>
+          </div>
+
+          <div class="week">
+            <div class="week-title">Minggu 3 — SQL level menengah</div>
+            <div class="task"><input type="checkbox" id="t2-5"><label for="t2-5">Pahami subquery dan Common Table Expression (WITH ... AS)</label></div>
+            <div class="task"><input type="checkbox" id="t2-6"><label for="t2-6">Kenalan dengan window function dasar (ROW_NUMBER, RANK)</label></div>
+            <div class="task"><input type="checkbox" id="t2-7"><label for="t2-7">Instal PostgreSQL atau DBeaver + SQLite di laptop untuk latihan dengan database sungguhan</label></div>
+          </div>
+
+          <div class="week">
+            <div class="week-title">Minggu 4 — Practice &amp; Mini Project</div>
+            <div class="task"><input type="checkbox" id="t2-8"><label for="t2-8">Kerjakan minimal 20 soal SQL practice untuk melatih kecepatan berpikir query</label></div>
+            <div class="task"><input type="checkbox" id="t2-9"><label for="t2-9"><b>Mini Project:</b> import dataset Kaggle ke SQLite, lalu tulis 10 query untuk menjawab pertanyaan bisnis (contoh: produk terlaris, tren penjualan per bulan, pelanggan paling loyal)</label></div>
+            <div class="res">🏋️ <a href="https://www.hackerrank.com/domains/sql" target="_blank">HackerRank SQL</a><a href="https://www.kaggle.com/learn/intro-to-sql" target="_blank">Kaggle Learn: Intro to SQL</a></div>
+          </div>
+
+          <div class="achieve">🏁 <b>Checkpoint Bulan 2:</b> Kamu bisa mengambil data langsung dari database — skill yang membedakan pelamar data analyst pemula dari yang sudah "kerja beneran" dengan data.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BULAN 3 -->
+    <div class="month" data-month="3">
+      <button class="month-head" data-toggle="3">
+        <div class="idx">03</div>
+        <div class="titles">
+          <div class="m-title">Python untuk Analisis Data</div>
+          <div class="m-sub">Otomatisasi analisis data dalam skala besar dengan Pandas</div>
+        </div>
+        <div class="pct" data-pct="3">0%</div>
+        <div class="chev">▾</div>
+      </button>
+      <div class="month-bar"><div class="month-bar-fill" data-bar="3"></div></div>
+      <div class="month-body" data-body="3">
+        <div class="month-body-in">
+          <div class="software-badges"><span class="badge">Python</span><span class="badge">Jupyter Notebook</span><span class="badge">Pandas</span></div>
+          <div class="goal-box"><b>Target akhir bulan:</b> Kamu bisa membersihkan dan menganalisis dataset besar dengan Python + Pandas, lalu membuat visualisasi sederhana.</div>
+
+          <div class="week">
+            <div class="week-title">Minggu 1 — Dasar Python</div>
+            <div class="task"><input type="checkbox" id="t3-1"><label for="t3-1">Instal Python via Anaconda (sudah termasuk Jupyter Notebook, tidak perlu setting rumit)</label></div>
+            <div class="task"><input type="checkbox" id="t3-2"><label for="t3-2">Pahami variabel, tipe data, list, dictionary, loop, dan function dasar</label></div>
+            <div class="res">💻 <a href="https://www.w3schools.com/python" target="_blank">W3Schools Python</a><a href="https://www.freecodecamp.org/learn/scientific-computing-with-python/" target="_blank">freeCodeCamp Python</a></div>
+          </div>
+
+          <div class="week">
+            <div class="week-title">Minggu 2 — Pandas dasar</div>
+            <div class="task"><input type="checkbox" id="t3-3"><label for="t3-3">Pahami struktur DataFrame dan Series</label></div>
+            <div class="task"><input type="checkbox" id="t3-4"><label for="t3-4">Kuasai read_csv, filtering baris, memilih kolom, sorting</label></div>
+            <div class="task"><input type="checkbox" id="t3-5"><label for="t3-5">Kuasai groupby dan agregasi (mirip GROUP BY di SQL, biar terasa familiar)</label></div>
+            <div class="res">🐼 <a href="https://pandas.pydata.org/docs/getting_started/index.html" target="_blank">Pandas Getting Started</a><a href="https://www.kaggle.com/learn/pandas" target="_blank">Kaggle Learn: Pandas</a></div>
+          </div>
+
+          <div class="week">
+            <div class="week-title">Minggu 3 — Data Cleaning</div>
+            <div class="task"><input type="checkbox" id="t3-6"><label for="t3-6">Tangani missing values (dropna, fillna)</label></div>
+            <div class="task"><input type="checkbox" id="t3-7"><label for="t3-7">Hapus data duplikat dan perbaiki format data (tanggal, teks, angka)</label></div>
+            <div class="task"><input type="checkbox" id="t3-8"><label for="t3-8">Gabungkan beberapa tabel dengan merge/join di Pandas</label></div>
+          </div>
+
+          <div class="week">
+            <div class="week-title">Minggu 4 — Visualisasi &amp; Mini Project</div>
+            <div class="task"><input type="checkbox" id="t3-9"><label for="t3-9">Buat visualisasi dasar dengan Matplotlib/Seaborn (bar, line, histogram, scatter)</label></div>
+            <div class="task"><input type="checkbox" id="t3-10"><label for="t3-10"><b>Mini Project:</b> ambil dataset Kaggle yang masih "kotor" (banyak missing value & duplikat), bersihkan dari nol sampai siap dianalisis, lalu buat 3 insight dengan visualisasi</label></div>
+            <div class="res">📊 <a href="https://matplotlib.org/stable/tutorials/index.html" target="_blank">Matplotlib Tutorials</a><a href="https://seaborn.pydata.org/tutorial.html" target="_blank">Seaborn Tutorial</a></div>
+          </div>
+
+          <div class="achieve">🏁 <b>Checkpoint Bulan 3:</b> Kamu sudah menguasai 3 tools inti data analyst: Excel, SQL, Python. Ini titik di mana kamu sudah cukup kuat untuk mulai melamar posisi junior/entry-level.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BULAN 4 -->
+    <div class="month" data-month="4">
+      <button class="month-head" data-toggle="4">
+        <div class="idx">04</div>
+        <div class="titles">
+          <div class="m-title">Visualisasi Data &amp; Dashboard (Tableau / Power BI)</div>
+          <div class="m-sub">Mengubah angka jadi dashboard yang bisa dipahami orang non-teknis</div>
+        </div>
+        <div class="pct" data-pct="4">0%</div>
+        <div class="chev">▾</div>
+      </button>
+      <div class="month-bar"><div class="month-bar-fill" data-bar="4"></div></div>
+      <div class="month-body" data-body="4">
+        <div class="month-body-in">
+          <div class="software-badges"><span class="badge">Tableau Public</span><span class="badge">Power BI Desktop</span></div>
+          <div class="goal-box"><b>Target akhir bulan:</b> Kamu bisa membuat dashboard interaktif profesional dengan minimal satu tools BI (pilih salah satu dulu supaya fokus, boleh dalami satunya lagi belakangan).</div>
+
+          <div class="week">
+            <div class="week-title">Minggu 1 — Prinsip visualisasi data</div>
+            <div class="task"><input type="checkbox" id="t4-1"><label for="t4-1">Pahami kapan pakai bar chart vs line chart vs pie chart vs scatter plot</label></div>
+            <div class="task"><input type="checkbox" id="t4-2"><label for="t4-2">Pelajari prinsip dasar dashboard yang enak dibaca: hierarki visual, warna yang konsisten, hindari 3D dan pie chart berlebihan</label></div>
+          </div>
+
+          <div class="week">
+            <div class="week-title">Minggu 2 — Instalasi &amp; interface</div>
+            <div class="task"><input type="checkbox" id="t4-3"><label for="t4-3">Pilih satu: install Tableau Public (gratis selamanya) atau Power BI Desktop (gratis untuk Windows)</label></div>
+            <div class="task"><input type="checkbox" id="t4-4"><label for="t4-4">Koneksikan dataset CSV/Excel ke tools tersebut dan kenali interface drag-and-drop-nya</label></div>
+            <div class="res">📥 <a href="https://www.tableau.com/products/public" target="_blank">Download Tableau Public</a><a href="https://powerbi.microsoft.com/en-us/downloads/" target="_blank">Download Power BI Desktop</a><a href="https://www.youtube.com/@guyinacube" target="_blank">YouTube: Guy in a Cube (Power BI)</a></div>
+          </div>
+
+          <div class="week">
+            <div class="week-title">Minggu 3 — Membuat dashboard</div>
+            <div class="task"><input type="checkbox" id="t4-5"><label for="t4-5">Buat 3-4 visual dari satu dataset, lalu gabungkan jadi satu dashboard</label></div>
+            <div class="task"><input type="checkbox" id="t4-6"><label for="t4-6">Tambahkan filter interaktif supaya user bisa eksplorasi data sendiri</label></div>
+          </div>
+
+          <div class="week">
+            <div class="week-title">Minggu 4 — Studi kasus &amp; Mini Project</div>
+            <div class="task"><input type="checkbox" id="t4-7"><label for="t4-7"><b>Mini Project:</b> buat dashboard bisnis (misal dashboard penjualan atau HR) lengkap dengan KPI card, tren waktu, dan breakdown per kategori</label></div>
+            <div class="task"><input type="checkbox" id="t4-8"><label for="t4-8">Publish dashboard ke Tableau Public profile kamu (jadi portofolio online, bisa dibagikan link-nya)</label></div>
+          </div>
+
+          <div class="achieve">🏁 <b>Checkpoint Bulan 4:</b> Kamu sudah bisa menyampaikan hasil analisis lewat dashboard visual — skill yang paling terlihat saat interview dan paling gampang dipamerkan di portofolio.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BULAN 5 -->
+    <div class="month" data-month="5">
+      <button class="month-head" data-toggle="5">
+        <div class="idx">05</div>
+        <div class="titles">
+          <div class="m-title">Statistik Terapan &amp; Data Storytelling</div>
+          <div class="m-sub">Menggabungkan semua tools jadi satu alur kerja end-to-end, plus bikin insight yang "nyambung" ke bisnis</div>
+        </div>
+        <div class="pct" data-pct="5">0%</div>
+        <div class="chev">▾</div>
+      </button>
+      <div class="month-bar"><div class="month-bar-fill" data-bar="5"></div></div>
+      <div class="month-body" data-body="5">
+        <div class="month-body-in">
+          <div class="software-badges"><span class="badge">Excel</span><span class="badge">SQL</span><span class="badge">Python</span><span class="badge">Tableau/Power BI</span></div>
+          <div class="goal-box"><b>Target akhir bulan:</b> Kamu bisa mengerjakan satu alur analisis penuh dari data mentah sampai laporan insight yang meyakinkan, dan mulai merancang final project.</div>
+
+          <div class="week">
+            <div class="week-title">Minggu 1 — Statistik terapan</div>
+            <div class="task"><input type="checkbox" id="t5-1"><label for="t5-1">Pahami correlation vs causation (data berkorelasi belum tentu sebab-akibat — konsep ini sering ditanya saat interview)</label></div>
+            <div class="task"><input type="checkbox" id="t5-2"><label for="t5-2">Pahami dasar hypothesis testing dan kapan sebuah perbedaan data dianggap signifikan</label></div>
+            <div class="task"><input type="checkbox" id="t5-3"><label for="t5-3">Kenalan dengan regresi linier sederhana untuk melihat hubungan antar variabel</label></div>
+          </div>
+
+          <div class="week">
+            <div class="week-title">Minggu 2 — Exploratory Data Analysis (EDA) end-to-end</div>
+            <div class="task"><input type="checkbox" id="t5-4"><label for="t5-4">Latihan EDA penuh: ambil data via SQL → bersihkan &amp; analisis di Python → cek angka ringkas di Excel → visualisasi di Tableau/Power BI</label></div>
+            <div class="task"><input type="checkbox" id="t5-5"><label for="t5-5">Biasakan selalu mulai EDA dengan pertanyaan bisnis, bukan asal eksplorasi data</label></div>
+          </div>
+
+          <div class="week">
+            <div class="week-title">Minggu 3 — Data storytelling</div>
+            <div class="task"><input type="checkbox" id="t5-6"><label for="t5-6">Latihan menyusun laporan insight dengan struktur: konteks → temuan → rekomendasi</label></div>
+            <div class="task"><input type="checkbox" id="t5-7"><label for="t5-7">Latihan menjelaskan hasil analisis teknis ke orang non-teknis dengan bahasa sederhana</label></div>
+          </div>
+
+          <div class="week">
+            <div class="week-title">Minggu 4 — Persiapan Final Project</div>
+            <div class="task"><input type="checkbox" id="t5-8"><label for="t5-8">Pilih topik dan dataset untuk final project (lihat detail final project di bawah)</label></div>
+            <div class="task"><input type="checkbox" id="t5-9"><label for="t5-9">Susun 3-5 pertanyaan bisnis yang ingin dijawab lewat final project</label></div>
+          </div>
+
+          <div class="achieve">🏁 <b>Checkpoint Bulan 5:</b> Kamu sudah berpikir seperti data analyst sungguhan: mulai dari pertanyaan bisnis, bukan dari data itu sendiri.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BULAN 6 -->
+    <div class="month" data-month="6">
+      <button class="month-head" data-toggle="6">
+        <div class="idx">06</div>
+        <div class="titles">
+          <div class="m-title">Final Project &amp; Siap Kerja</div>
+          <div class="m-sub">Membangun portofolio dan bersiap melamar kerja</div>
+        </div>
+        <div class="pct" data-pct="6">0%</div>
+        <div class="chev">▾</div>
+      </button>
+      <div class="month-bar"><div class="month-bar-fill" data-bar="6"></div></div>
+      <div class="month-body" data-body="6">
+        <div class="month-body-in">
+          <div class="software-badges"><span class="badge">Semua tools bulan 1-5</span><span class="badge">GitHub</span><span class="badge">LinkedIn</span></div>
+          <div class="goal-box"><b>Target akhir bulan:</b> Final project selesai dan terpublikasi, portofolio online siap ditunjukkan, dan kamu siap melamar posisi data analyst entry-level.</div>
+
+          <div class="week">
+            <div class="week-title">Minggu 1-2 — Kerjakan Final Project</div>
+            <div class="task"><input type="checkbox" id="t6-1"><label for="t6-1">Kerjakan final project penuh (lihat spesifikasi lengkap di bawah)</label></div>
+          </div>
+
+          <div class="week">
+            <div class="week-title">Minggu 3 — Bangun portofolio</div>
+            <div class="task"><input type="checkbox" id="t6-2"><label for="t6-2">Upload semua project (kode Python/SQL, file Excel, dashboard) ke GitHub dengan penjelasan singkat tiap project</label></div>
+            <div class="task"><input type="checkbox" id="t6-3"><label for="t6-3">Publish dashboard final project ke Tableau Public / Power BI publish</label></div>
+            <div class="task"><input type="checkbox" id="t6-4"><label for="t6-4">Perbarui profil LinkedIn: judul "Data Analyst", ringkasan skill, dan link ke portofolio</label></div>
+            <div class="res">💻 <a href="https://github.com" target="_blank">GitHub (gratis)</a></div>
+          </div>
+
+          <div class="week">
+            <div class="week-title">Minggu 4 — Persiapan melamar kerja</div>
+            <div class="task"><input type="checkbox" id="t6-5"><label for="t6-5">Latihan menjawab pertanyaan interview umum: "Ceritakan satu project data yang paling berkesan", "Bagaimana kamu menangani data kotor?"</label></div>
+            <div class="task"><input type="checkbox" id="t6-6"><label for="t6-6">Latihan take-home case study (banyak perusahaan kasih tes kecil sebelum interview — biasanya mirip mini project yang sudah kamu latih)</label></div>
+            <div class="task"><input type="checkbox" id="t6-7"><label for="t6-7">Mulai melamar posisi Junior/Entry-Level Data Analyst, atau Data Analyst Intern</label></div>
+          </div>
+
+          <div class="achieve">🏁 <b>Checkpoint Bulan 6:</b> Kamu resmi punya portofolio nyata + skill inti data analyst. Dari sini, terus melamar dan terus perbaiki portofolio berdasarkan feedback interview.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL PROJECT -->
+  <div class="section" id="final-project">
+    <div class="final">
+      <h2>Spesifikasi Final Project</h2>
+      <p class="lead">Simulasikan pekerjaan data analyst sungguhan dari awal sampai akhir: satu studi kasus bisnis, dikerjakan end-to-end dengan semua tools yang sudah kamu pelajari.</p>
+      <div class="steps">
+        <div class="step"><div class="n">STEP 1</div><h4>Tentukan pertanyaan bisnis</h4><p>Pilih dataset publik dari Kaggle (misal: data penjualan e-commerce, data HR, atau data marketing). Tentukan 3-5 pertanyaan bisnis nyata, contoh: "Produk apa yang paling menguntungkan?" atau "Kenapa karyawan banyak resign di divisi tertentu?"</p></div>
+        <div class="step"><div class="n">STEP 2</div><h4>Ambil &amp; bersihkan data</h4><p>Gunakan SQL untuk mengambil/menyaring data, lalu Python (Pandas) untuk membersihkan data kotor: missing values, duplikat, format tidak konsisten.</p></div>
+        <div class="step"><div class="n">STEP 3</div><h4>Analisis</h4><p>Lakukan exploratory data analysis dengan Python/Excel: cari pola, tren, dan anomali yang relevan dengan pertanyaan bisnis di Step 1.</p></div>
+        <div class="step"><div class="n">STEP 4</div><h4>Visualisasi</h4><p>Buat dashboard interaktif di Tableau Public atau Power BI yang menjawab pertanyaan bisnis dengan jelas, lengkap dengan KPI utama.</p></div>
+        <div class="step"><div class="n">STEP 5</div><h4>Insight &amp; rekomendasi</h4><p>Tulis laporan singkat (1-2 halaman): temuan utama + rekomendasi bisnis yang actionable, seolah-olah kamu presentasi ke manajer.</p></div>
+        <div class="step"><div class="n">STEP 6</div><h4>Publikasikan</h4><p>Upload seluruh project ke GitHub (kode + dashboard + laporan) dengan README yang menjelaskan proses berpikirmu dari awal sampai akhir.</p></div>
+      </div>
+      <div class="deliverables">
+        <b>Deliverables yang harus ada:</b>
+        <ul>
+          <li>File SQL berisi query yang dipakai untuk mengambil/menyaring data</li>
+          <li>Notebook Python (.ipynb) berisi proses cleaning &amp; analisis data</li>
+          <li>Dashboard interaktif (link Tableau Public atau file Power BI)</li>
+          <li>Laporan insight &amp; rekomendasi (PDF atau slide singkat)</li>
+          <li>README di GitHub yang menceritakan proses dan hasil project</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIPS -->
+  <div class="section">
+    <div class="section-head"><h2>Setelah roadmap ini selesai</h2><span class="tag">tips</span></div>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <h4>Cara belajar biar tidak nyerah di tengah jalan</h4>
+        <ul>
+          <li>Sisihkan waktu belajar yang sama tiap hari, minimal 1-2 jam, lebih baik dari belajar maraton lalu vakum berminggu-minggu</li>
+          <li>Jangan tunggu "paham 100%" baru praktik — praktik dulu sambil error, baru cari tahu kenapa</li>
+          <li>Gabung komunitas data (Kaggle, grup Telegram/Discord data analyst Indonesia) untuk tanya-jawab dan motivasi</li>
+        </ul>
+      </div>
+      <div class="tip-card">
+        <h4>Modal awal (gratis semua)</h4>
+        <ul>
+          <li>Laptop dengan RAM minimal 4-8GB sudah cukup untuk semua tools di roadmap ini</li>
+          <li>Koneksi internet untuk akses tutorial, dataset, dan tools cloud (Google Sheets, Tableau Public)</li>
+          <li>Akun Kaggle, GitHub, dan LinkedIn — semuanya gratis dan wajib punya sebagai data analyst</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="reset-row">
+    <button class="reset-btn" id="reset-btn">↺ reset semua progres</button>
+  </div>
+
+</div>
+
+<!-- ===== MODAL ===== -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="modal-title">Materi</h3>
+      <button class="modal-close" id="modal-close">&times;</button>
+    </div>
+    <div class="modal-body" id="modal-body">
+      <p>Materi akan muncul di sini.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DATA MATERI (injected via JavaScript) ===== -->
+<script>
+// ============================================================
+//  DATA MATERI — 43 entri lengkap
+// ============================================================
+const MATERI = {
+  "t1-1": {
+    title: "Alur Kerja Data Analyst Sehari-hari",
+    body: `<p>Seorang data analyst hampir selalu bekerja dengan alur yang sama, apapun industrinya. Bayangkan kamu bekerja di sebuah perusahaan e-commerce, ini kira-kira alur harianmu:</p>
+<ol>
+<li><b>Ambil data (Extract)</b> — Data datang dari berbagai sumber: database transaksi, Google Analytics, spreadsheet marketing, form customer service. Kamu perlu tahu di mana data itu disimpan dan bagaimana cara mengambilnya (biasanya lewat SQL).</li>
+<li><b>Bersihkan data (Clean)</b> — Data mentah hampir selalu berantakan: ada yang kosong, duplikat, format tanggal beda-beda, salah ketik. Sebelum dianalisis, data ini harus "dirapikan" dulu.</li>
+<li><b>Analisis (Analyze)</b> — Di sinilah kamu mencari pola: produk apa yang paling laku, kenapa penjualan turun bulan lalu, wilayah mana yang paling potensial.</li>
+<li><b>Visualisasi (Visualize)</b> — Angka mentah susah dipahami orang lain. Kamu ubah jadi grafik atau dashboard yang mudah dibaca dalam hitungan detik.</li>
+<li><b>Presentasi Insight</b> — Terakhir, kamu sampaikan temuan ke tim/atasan dengan bahasa yang jelas, plus rekomendasi tindakan: "Diskon di kategori X sebaiknya diperpanjang karena menaikkan penjualan 20%."</li>
+</ol>
+<p><b>Kenapa ini penting dipahami dari awal?</b> Karena roadmap belajar 6 bulan ini disusun persis mengikuti alur ini: Excel dulu (rapi-rapi data & laporan dasar), lalu SQL (ambil data), Python (bersihkan & analisis data besar), lalu Tableau/Power BI (visualisasi). Jadi setiap bulan kamu akan tahu skill itu dipakai di tahap mana dalam pekerjaan nyata.</p>`
+  },
+  "t1-2": {
+    title: "Data Analyst vs Data Scientist vs Data Engineer",
+    body: `<p>Tiga peran ini sering tertukar padahal fokusnya beda. Berikut perbandingannya:</p>
+<table>
+<tr style="background:#f0f2ef;"><th>Peran</th><th>Fokus Kerja</th><th>Tools Utama</th></tr>
+<tr><td><b>Data Analyst</b></td><td>Menjawab pertanyaan bisnis dari data yang sudah ada: "Kenapa penjualan turun?"</td><td>Excel, SQL, Tableau/Power BI, sedikit Python</td></tr>
+<tr><td><b>Data Scientist</b></td><td>Membuat model prediksi/machine learning: "Pelanggan mana yang akan churn bulan depan?"</td><td>Python/R lanjutan, statistik & ML, matematika lebih dalam</td></tr>
+<tr><td><b>Data Engineer</b></td><td>Membangun & merawat infrastruktur data (pipa data) agar data bisa diakses tim lain</td><td>SQL lanjutan, Python, cloud (AWS/GCP), tools ETL</td></tr>
+</table>
+<p>Data Analyst adalah pintu masuk paling ramah untuk pemula karena tidak butuh matematika/statistik seberat data scientist, dan tidak butuh latar belakang programming seberat data engineer. Roadmap ini fokus penuh membentukmu jadi Data Analyst yang siap kerja.</p>`
+  },
+  "t1-3": {
+    title: "Melihat Dunia Kerja Data Analyst dari Dekat",
+    body: `<p>Sebelum masuk ke teknis, penting untuk punya gambaran nyata: ngapain aja sih data analyst tiap hari? Saat nonton video "day in the life", perhatikan hal-hal ini supaya tidak sekadar nonton lewat:</p>
+<ul>
+<li>Berapa persen waktu mereka habiskan untuk membersihkan data vs menganalisis vs meeting?</li>
+<li>Tools apa saja yang terlihat dibuka di layar mereka (biasanya Excel, SQL editor, Tableau/Power BI, Slack)?</li>
+<li>Bagaimana cara mereka berkomunikasi dengan tim non-teknis (marketing, product, finance)?</li>
+<li>Apakah mereka kerja sendiri atau selalu terlibat dalam tim?</li>
+</ul>
+<p><b>Channel yang direkomendasikan</b> (lihat link di bagian sumber daya): Alex The Analyst dan Luke Barousse adalah mantan/praktisi data analyst yang sering membuat konten jujur tentang keseharian kerja, termasuk suka-dukanya, gaji, dan cara mereka dulu belajar dari nol. Ini akan membantumu membangun ekspektasi yang realistis sebelum menghabiskan 6 bulan belajar.</p>`
+  },
+  "t1-4": {
+    title: "Instalasi Excel & Google Sheets",
+    body: `<p>Kamu tidak wajib punya Microsoft Excel berbayar. Berikut pilihannya:</p>
+<ul>
+<li><b>Google Sheets (disarankan untuk pemula, 100% gratis)</b> — cukup punya akun Google, buka <code>sheets.google.com</code>, langsung bisa pakai. Otomatis tersimpan di cloud, bisa diakses dari HP maupun laptop.</li>
+<li><b>Microsoft Excel</b> — jika kampus/kantor sudah menyediakan lisensi Microsoft 365, gunakan itu. Kalau belum punya, Microsoft menyediakan <i>Excel Online</i> gratis di <code>office.com</code> menggunakan akun Microsoft/Outlook.</li>
+</ul>
+<p><b>Rekomendasi:</b> pakai Google Sheets dulu selama roadmap ini. Hampir semua fungsi dan konsep (formula, pivot table, chart) identik dengan Excel, jadi skill-nya 100% bisa dipindah kalau nanti kantor pakai Excel.</p>
+<p><b>Langkah cepat mulai:</b></p>
+<ol>
+<li>Buka <code>sheets.google.com</code>, klik "Blank spreadsheet".</li>
+<li>Buat 3 kolom contoh: Nama Produk, Jumlah Terjual, Harga.</li>
+<li>Isi 10 baris data dummy — ini akan jadi tempat latihanmu untuk semua materi minggu ini.</li>
+</ol>`
+  },
+  "t1-5": {
+    title: "Formula Dasar Excel/Sheets: SUM, AVERAGE, COUNT, COUNTIF, IF",
+    body: `<p>Ini adalah 5 formula yang paling sering dipakai data analyst setiap hari. Anggap kamu punya kolom <b>B</b> berisi angka penjualan dari baris 2 sampai 11.</p>
+<ul>
+<li><code>=SUM(B2:B11)</code> — menjumlahkan seluruh angka penjualan.</li>
+<li><code>=AVERAGE(B2:B11)</code> — mencari rata-rata penjualan.</li>
+<li><code>=COUNT(B2:B11)</code> — menghitung berapa banyak sel berisi angka (berguna cek berapa transaksi tercatat).</li>
+<li><code>=COUNTIF(B2:B11, ">100")</code> — menghitung berapa transaksi yang nilainya di atas 100. Sangat berguna untuk menjawab pertanyaan seperti "berapa produk yang terjual lebih dari 100 unit?"</li>
+<li><code>=IF(B2>100, "Laku Keras", "Biasa Saja")</code> — memberi label otomatis berdasarkan kondisi. Kalau nilai di B2 lebih dari 100, tulis "Laku Keras", kalau tidak tulis "Biasa Saja".</li>
+</ul>
+<p><b>Latihan:</b> di data dummy yang kamu buat sebelumnya, buat kolom baru bernama "Status" yang otomatis menampilkan "Laku Keras" atau "Biasa Saja" pakai IF. Lalu di sel kosong lain, hitung total penjualan (SUM), rata-rata (AVERAGE), dan berapa produk yang "Laku Keras" (COUNTIF).</p>`
+  },
+  "t1-6": {
+    title: "VLOOKUP & XLOOKUP: Menggabungkan Data dari Tabel Berbeda",
+    body: `<p>Di dunia kerja, data jarang ada dalam satu tabel rapi. Biasanya kamu punya "Tabel Transaksi" dan "Tabel Master Produk" yang perlu digabung. Di sinilah VLOOKUP/XLOOKUP berperan.</p>
+<p><b>VLOOKUP</b> (Vertical Lookup) — mencari nilai di kolom pertama sebuah tabel, lalu mengambil nilai dari kolom lain di baris yang sama.</p>
+<pre>=VLOOKUP(A2, TabelProduk!A:C, 3, FALSE)</pre>
+<p>Artinya: cari nilai di A2 di dalam kolom pertama <code>TabelProduk</code>, lalu ambil isi kolom ke-3 dari baris yang cocok. <code>FALSE</code> berarti harus cocok persis.</p>
+<p><b>XLOOKUP</b> (lebih baru & lebih fleksibel, tersedia di Excel 365 & Google Sheets):</p>
+<pre>=XLOOKUP(A2, TabelProduk!A:A, TabelProduk!C:C)</pre>
+<p>Lebih mudah dibaca dan tidak perlu menghitung urutan kolom seperti VLOOKUP. Kalau tersedia, gunakan XLOOKUP.</p>
+<p><b>Latihan:</b> buat 2 tabel — "Transaksi" (kolom: ID Produk, Jumlah) dan "Master Produk" (kolom: ID Produk, Nama Produk, Harga). Gunakan VLOOKUP/XLOOKUP di tabel Transaksi untuk menarik Nama Produk dan Harga dari Master Produk berdasarkan ID Produk yang sama.</p>`
+  },
+  "t1-7": {
+    title: "Membuat Pivot Table",
+    body: `<p>Pivot Table adalah tool paling ampuh di spreadsheet untuk meringkas ribuan baris data jadi tabel ringkas dalam hitungan detik — tanpa menulis formula sama sekali.</p>
+<p><b>Contoh kasus:</b> kamu punya 1000 baris data penjualan dengan kolom Tanggal, Kategori Produk, Kota, dan Total Penjualan. Kamu ingin tahu total penjualan per Kategori Produk.</p>
+<ol>
+<li>Blok seluruh data, lalu klik <b>Insert → Pivot Table</b>.</li>
+<li>Di panel yang muncul, seret <b>Kategori Produk</b> ke area "Rows".</li>
+<li>Seret <b>Total Penjualan</b> ke area "Values" (pastikan aggregasinya "Sum", bukan "Count").</li>
+<li>Hasilnya langsung muncul: tabel ringkas total penjualan per kategori, tanpa satupun formula manual.</li>
+</ol>
+<p>Kamu juga bisa menambahkan <b>Kota</b> ke area "Columns" untuk melihat penjualan per kategori sekaligus per kota dalam satu tabel — ini yang membuat Pivot Table sangat powerful untuk eksplorasi data cepat.</p>
+<p><b>Latihan:</b> download data dummy penjualan (bisa cari "sample sales dataset csv" di Google), lalu buat pivot table: total penjualan per bulan, dan total penjualan per kategori produk.</p>`
+  },
+  "t1-8": {
+    title: "Membuat Chart: Bar, Line, Pie & Kapan Pakai yang Mana",
+    body: `<p>Memilih jenis chart yang tepat sama pentingnya dengan membuat chart itu sendiri. Aturan sederhananya:</p>
+<ul>
+<li><b>Bar chart</b> — untuk membandingkan nilai antar kategori yang berbeda (contoh: penjualan per kota, per produk). Ini chart paling serbaguna dan paling mudah dibaca.</li>
+<li><b>Line chart</b> — untuk menunjukkan tren dari waktu ke waktu (contoh: penjualan per bulan selama setahun). Jangan pakai line chart untuk data yang tidak berurutan waktu.</li>
+<li><b>Pie chart</b> — hanya untuk menunjukkan proporsi/persentase dari satu keseluruhan, dan sebaiknya maksimal 5-6 kategori saja. Kalau kategorinya banyak, pie chart jadi susah dibaca — pakai bar chart saja.</li>
+</ul>
+<p><b>Cara membuat di Sheets/Excel:</b> blok data yang ingin divisualkan (termasuk header kolom), lalu <b>Insert → Chart</b>, pilih jenis chart yang sesuai di panel Chart Editor.</p>
+<p><b>Latihan:</b> dari data penjualan yang sama, buat 1 bar chart (penjualan per kategori), 1 line chart (tren penjualan per bulan), dan 1 pie chart (proporsi penjualan per kota, maksimal 5 kota teratas).</p>`
+  },
+  "t1-9": {
+    title: "Conditional Formatting untuk Highlight Data Penting",
+    body: `<p>Conditional Formatting membuat sel berubah warna otomatis berdasarkan nilainya — sangat membantu supaya angka penting langsung "kelihatan" tanpa harus membaca satu-satu.</p>
+<p><b>Contoh penggunaan umum:</b></p>
+<ul>
+<li><b>Color scale</b> — sel dengan nilai tinggi diwarnai hijau, nilai rendah diwarnai merah. Cocok untuk melihat performa penjualan per bulan sekilas mata.</li>
+<li><b>Highlight duplicate</b> — otomatis menandai baris yang datanya duplikat, berguna untuk quality check data sebelum dianalisis.</li>
+<li><b>Data bars</b> — menampilkan bar kecil di dalam sel proporsional dengan nilainya, seperti mini bar chart di dalam tabel.</li>
+</ul>
+<p><b>Cara pakai (Google Sheets):</b> blok range data → <b>Format → Conditional formatting</b> → pilih aturan (misal "Color scale") → atur warna minimum dan maksimum.</p>
+<p><b>Latihan:</b> di data penjualan, beri color scale pada kolom Total Penjualan (hijau = tinggi, merah = rendah), lalu tambahkan aturan highlight untuk baris yang Total Penjualannya di bawah rata-rata.</p>`
+  },
+  "t1-10": {
+    title: "Statistik Dasar: Mean, Median, Modus, Standar Deviasi",
+    body: `<p>Kamu tidak perlu jadi ahli matematika, cukup paham logikanya karena ini dipakai terus untuk meringkas data.</p>
+<ul>
+<li><b>Mean (rata-rata)</b> — jumlah semua nilai dibagi banyaknya data. Contoh: gaji 5 orang: 3jt, 3jt, 3jt, 3jt, 20jt → mean = 6.4jt. <i>Perhatikan: mean bisa menyesatkan kalau ada nilai ekstrem (outlier)</i> seperti contoh di atas.</li>
+<li><b>Median (nilai tengah)</b> — urutkan data dari kecil ke besar, ambil nilai di tengah. Dari contoh gaji di atas: median = 3jt. Median lebih tahan terhadap outlier dibanding mean, jadi lebih representatif untuk data seperti gaji atau harga rumah.</li>
+<li><b>Modus</b> — nilai yang paling sering muncul. Dari contoh gaji: modus = 3jt (muncul 4 kali).</li>
+<li><b>Standar deviasi</b> — mengukur seberapa "menyebar" data dari rata-ratanya. Standar deviasi kecil berarti data cenderung seragam; besar berarti data sangat bervariasi. Contoh: nilai ujian dengan std dev kecil berarti hampir semua siswa nilainya mirip, std dev besar berarti ada yang sangat tinggi dan sangat rendah.</li>
+</ul>
+<p>Di Sheets/Excel, cukup pakai <code>=AVERAGE()</code>, <code>=MEDIAN()</code>, <code>=MODE()</code>, dan <code>=STDEV()</code> — kamu tidak perlu menghitung manual.</p>`
+  },
+  "t1-11": {
+    title: "Panduan Mengerjakan Mini Project Bulan 1",
+    body: `<p>Ini adalah project pertamamu yang bisa langsung masuk portofolio. Ikuti langkah berikut:</p>
+<ol>
+<li><b>Download dataset</b> — buka Kaggle Datasets, cari kata kunci "retail sales dataset" atau "supermarket sales", pilih yang formatnya CSV dan ukurannya tidak terlalu besar (di bawah 10.000 baris untuk pemula).</li>
+<li><b>Import ke Sheets/Excel</b> — File → Import, upload file CSV tadi.</li>
+<li><b>Bersihkan data</b> — cek apakah ada baris kosong, duplikat, atau format tanggal yang aneh. Rapikan dulu sebelum lanjut.</li>
+<li><b>Buat minimal 1 Pivot Table</b> — misal total penjualan per kategori produk atau per bulan.</li>
+<li><b>Buat 3 chart</b> — kombinasikan bar, line, dan pie sesuai data yang tersedia.</li>
+<li><b>Tulis kesimpulan singkat</b> — 3-5 kalimat di bagian bawah sheet, contoh: "Kategori Elektronik menyumbang 40% dari total penjualan. Penjualan tertinggi terjadi di bulan Desember, kemungkinan karena musim liburan."</li>
+</ol>
+<p><b>Kenapa project ini penting:</b> ini adalah project portofolio pertamamu. Simpan file ini baik-baik (nanti akan di-upload ke Google Drive/GitHub di Bulan 6), dan kamu akan bisa ceritakan proses ini saat interview nanti.</p>`
+  },
+  "t2-1": {
+    title: "Konsep Dasar Database: Tabel, Baris, Kolom",
+    body: `<p>Database adalah tempat data disimpan secara terstruktur, jauh lebih efisien daripada spreadsheet untuk data dalam jumlah besar (jutaan baris).</p>
+<ul>
+<li><b>Tabel (table)</b> — mirip satu sheet di Excel, berisi data tentang satu topik tertentu, misal tabel <code>orders</code> atau tabel <code>customers</code>.</li>
+<li><b>Baris (row)</b> — satu record/data tunggal, misal satu baris = satu transaksi.</li>
+<li><b>Kolom (column)</b> — satu atribut/field dari data, misal kolom <code>customer_id</code>, <code>order_date</code>, <code>total_price</code>.</li>
+</ul>
+<p>Bedanya dengan spreadsheet: database biasanya punya <b>banyak tabel yang saling berhubungan (relasi)</b>. Contoh: tabel <code>orders</code> hanya menyimpan <code>customer_id</code> (angka), sedangkan nama & alamat lengkap pelanggan disimpan terpisah di tabel <code>customers</code>. Ini menghindari data ditulis berulang-ulang dan membuat data lebih rapi & konsisten. Untuk menggabungkan data dari beberapa tabel inilah kita butuh SQL, yang akan kamu pelajari sepanjang bulan ini.</p>`
+  },
+  "t2-2": {
+    title: "SELECT, WHERE, ORDER BY, LIMIT — Query Dasar SQL",
+    body: `<p>Ini adalah 4 perintah SQL paling dasar yang akan kamu pakai ribuan kali sebagai data analyst.</p>
+<pre>SELECT nama_produk, harga
+FROM produk
+WHERE kategori = 'Elektronik'
+ORDER BY harga DESC
+LIMIT 10;</pre>
+<ul>
+<li><code>SELECT</code> — memilih kolom mana saja yang ingin ditampilkan.</li>
+<li><code>FROM</code> — dari tabel mana data diambil.</li>
+<li><code>WHERE</code> — menyaring baris berdasarkan kondisi tertentu (di contoh: hanya kategori Elektronik).</li>
+<li><code>ORDER BY ... DESC</code> — mengurutkan hasil dari terbesar ke terkecil (pakai <code>ASC</code> untuk terkecil ke terbesar).</li>
+<li><code>LIMIT 10</code> — hanya menampilkan 10 baris teratas.</li>
+</ul>
+<p>Query di atas artinya: "Tampilkan 10 produk elektronik termahal." Ini persis jenis pertanyaan yang sering ditanyakan tim bisnis ke data analyst.</p>
+<p><b>Latihan:</b> buka SQLBolt (link di sumber daya), kerjakan seluruh modul dasar SELECT — semuanya interaktif langsung di browser, tidak perlu install apapun.</p>`
+  },
+  "t2-3": {
+    title: "INNER JOIN & LEFT JOIN",
+    body: `<p>JOIN dipakai untuk menggabungkan dua tabel atau lebih berdasarkan kolom yang sama — ini adalah skill SQL paling penting bagi data analyst karena data di dunia nyata selalu tersebar di banyak tabel.</p>
+<pre>SELECT o.order_id, c.nama_pelanggan, o.total_harga
+FROM orders o
+INNER JOIN customers c ON o.customer_id = c.customer_id;</pre>
+<ul>
+<li><b>INNER JOIN</b> — hanya menampilkan baris yang punya pasangan cocok di kedua tabel. Kalau ada order tanpa customer_id yang valid, baris itu tidak akan muncul.</li>
+<li><b>LEFT JOIN</b> — menampilkan SEMUA baris dari tabel kiri (orders), meskipun tidak ada pasangannya di tabel kanan (customers). Kolom yang tidak cocok akan diisi <code>NULL</code>.</li>
+</ul>
+<p><b>Kapan pakai yang mana?</b> Pakai LEFT JOIN kalau kamu ingin memastikan tidak ada data yang "hilang" dari tabel utama, misalnya saat mengecek order mana saja yang datanya pelanggan belum lengkap. Pakai INNER JOIN kalau kamu hanya butuh data yang benar-benar lengkap di kedua tabel.</p>`
+  },
+  "t2-4": {
+    title: "GROUP BY, HAVING & Fungsi Agregat",
+    body: `<p>GROUP BY dipakai untuk meringkas data per kelompok — mirip konsep Pivot Table tapi di level database.</p>
+<pre>SELECT kategori, SUM(total_harga) AS total_penjualan, COUNT(*) AS jumlah_transaksi
+FROM orders
+GROUP BY kategori
+HAVING SUM(total_harga) > 10000000
+ORDER BY total_penjualan DESC;</pre>
+<ul>
+<li><code>GROUP BY kategori</code> — mengelompokkan data per kategori produk.</li>
+<li><code>SUM()</code>, <code>COUNT()</code>, <code>AVG()</code>, <code>MAX()</code>, <code>MIN()</code> — fungsi agregat untuk meringkas nilai dalam tiap kelompok.</li>
+<li><code>HAVING</code> — mirip WHERE, tapi khusus menyaring HASIL setelah di-GROUP BY (WHERE tidak bisa dipakai untuk menyaring hasil agregat).</li>
+</ul>
+<p>Query di atas artinya: "Tampilkan total penjualan & jumlah transaksi per kategori, tapi hanya kategori yang total penjualannya di atas 10 juta, diurutkan dari yang paling besar." Ini contoh nyata pertanyaan bisnis yang dijawab pakai satu query saja.</p>`
+  },
+  "t2-5": {
+    title: "Subquery & CTE (WITH ... AS)",
+    body: `<p>Kadang kamu perlu hasil dari satu query untuk dipakai lagi di query lain. Ada 2 cara: subquery dan CTE.</p>
+<p><b>Subquery</b> (query di dalam query):</p>
+<pre>SELECT nama_produk, harga
+FROM produk
+WHERE harga > (SELECT AVG(harga) FROM produk);</pre>
+<p>Artinya: tampilkan produk yang harganya di atas rata-rata harga semua produk.</p>
+<p><b>CTE (Common Table Expression)</b> — cara yang lebih rapi dan mudah dibaca untuk query kompleks, terutama kalau kamu butuh beberapa tahap perhitungan:</p>
+<pre>WITH penjualan_per_bulan AS (
+  SELECT bulan, SUM(total_harga) AS total
+  FROM orders
+  GROUP BY bulan
+)
+SELECT * FROM penjualan_per_bulan
+WHERE total > 50000000;</pre>
+<p>CTE membuat query panjang jadi terbagi dalam blok-blok yang mudah dipahami, seperti membuat "tabel sementara" bernama <code>penjualan_per_bulan</code> lalu memakainya lagi di query utama.</p>`
+  },
+  "t2-6": {
+    title: "Window Function Dasar: ROW_NUMBER, RANK",
+    body: `<p>Window function memungkinkanmu menghitung sesuatu "dalam konteks" baris lain, tanpa menggabungkan semua baris jadi satu (beda dengan GROUP BY yang meringkas).</p>
+<pre>SELECT nama_produk, kategori, total_terjual,
+  RANK() OVER (PARTITION BY kategori ORDER BY total_terjual DESC) AS peringkat
+FROM produk;</pre>
+<p>Query ini memberi <b>peringkat produk terlaris di dalam masing-masing kategori</b> — misalnya peringkat 1-3 di kategori Elektronik, dan peringkat 1-3 lagi di kategori Fashion, semua dalam satu hasil tanpa kehilangan detail per produk.</p>
+<ul>
+<li><code>ROW_NUMBER()</code> — memberi nomor urut unik 1, 2, 3, ... tanpa nilai yang sama diberi peringkat kembar.</li>
+<li><code>RANK()</code> — memberi peringkat, tapi kalau ada nilai yang sama, peringkatnya kembar dan nomor berikutnya "dilompati".</li>
+<li><code>PARTITION BY</code> — membagi data jadi kelompok-kelompok sebelum diberi nomor/ranking (di contoh: per kategori).</li>
+</ul>
+<p>Window function sering muncul di pertanyaan interview seperti "cari 3 produk terlaris di tiap kategori" — cukup pakai RANK() + PARTITION BY.</p>`
+  },
+  "t2-7": {
+    title: "Instalasi PostgreSQL / DBeaver / SQLite",
+    body: `<p>Setelah lancar latihan online, saatnya latihan dengan database sungguhan di laptop.</p>
+<p><b>Opsi termudah untuk pemula: SQLite + DBeaver</b></p>
+<ol>
+<li>Download <b>DBeaver Community Edition</b> (gratis) dari dbeaver.io — ini adalah aplikasi untuk membuka, menulis query, dan melihat isi database dengan tampilan visual.</li>
+<li>Saat pertama buka DBeaver, pilih "New Database Connection" → pilih <b>SQLite</b> → tidak perlu server terpisah, cukup pilih lokasi file database (atau buat baru).</li>
+<li>Import dataset CSV dari Kaggle ke dalam SQLite lewat fitur "Import Data" di DBeaver — klik kanan pada database → Import Data → pilih file CSV.</li>
+</ol>
+<p><b>Kalau ingin lebih mendekati situasi kerja sungguhan:</b> install <b>PostgreSQL</b> (database yang sangat umum dipakai perusahaan) dari postgresql.org, lalu hubungkan ke DBeaver dengan cara yang sama.</p>
+<p>Tidak perlu bingung memilih — SQLite sudah lebih dari cukup untuk latihan dan mini project di roadmap ini.</p>`
+  },
+  "t2-8": {
+    title: "Strategi Latihan Soal SQL",
+    body: `<p>SQL adalah skill yang hanya benar-benar melekat lewat banyak latihan soal, bukan cuma menonton tutorial. Berikut strategi latihan yang efektif:</p>
+<ul>
+<li><b>Jangan lihat jawaban dulu.</b> Coba tulis query sendiri minimal 5-10 menit sebelum melihat solusi.</li>
+<li><b>Fokus ke pola soal, bukan hafalan.</b> Soal SQL biasanya berulang pola: "cari top N per kategori", "hitung total per periode waktu", "cari data yang tidak punya pasangan (pakai LEFT JOIN + IS NULL)". Kenali pola-pola ini.</li>
+<li><b>Kerjakan di HackerRank SQL domain</b> — pilih level Easy dulu sampai lancar, baru naik ke Medium.</li>
+<li><b>Modul Kaggle Learn: Intro to SQL</b> — cocok karena langsung dipraktikkan dengan dataset nyata via BigQuery, bukan cuma soal abstrak.</li>
+</ul>
+<p><b>Target realistis:</b> setelah 20 soal, kamu seharusnya sudah bisa menulis SELECT+WHERE+JOIN+GROUP BY tanpa mikir lama. Kalau masih kesulitan, ulangi 10 soal dari awal — pengulangan itu normal dan perlu.</p>`
+  },
+  "t2-9": {
+    title: "Panduan Mengerjakan Mini Project Bulan 2",
+    body: `<p>Project ini akan membuktikan kamu bisa mengambil insight langsung dari database, bukan cuma dari spreadsheet yang sudah rapi.</p>
+<ol>
+<li><b>Pilih dataset</b> — Kaggle dataset apapun dengan minimal 2-3 tabel yang berelasi (contoh: dataset e-commerce dengan tabel orders, customers, products).</li>
+<li><b>Import ke SQLite</b> lewat DBeaver seperti yang kamu pelajari minggu 3.</li>
+<li><b>Tulis 10 query</b> yang menjawab pertanyaan bisnis nyata, contoh:
+  <ul>
+    <li>5 produk terlaris berdasarkan jumlah unit terjual (SELECT + GROUP BY + ORDER BY + LIMIT)</li>
+    <li>Tren total penjualan per bulan (GROUP BY tanggal)</li>
+    <li>Pelanggan dengan total pembelian terbesar (JOIN + GROUP BY)</li>
+    <li>Produk yang belum pernah terjual sama sekali (LEFT JOIN + WHERE ... IS NULL)</li>
+    <li>Ranking produk terlaris per kategori (window function RANK)</li>
+  </ul>
+</li>
+<li><b>Simpan semua query</b> dalam satu file <code>.sql</code> dengan komentar singkat di atas tiap query menjelaskan pertanyaan bisnis apa yang dijawab.</li>
+</ol>
+<p>File <code>.sql</code> ini akan jadi bukti nyata di portofolio bahwa kamu bisa "berbicara" dengan database — salah satu skill yang paling sering dicek lewat technical test saat melamar kerja.</p>`
+  },
+  "t3-1": {
+    title: "Instalasi Python via Anaconda",
+    body: `<p>Anaconda adalah cara paling praktis untuk pemula install Python karena sudah termasuk ratusan library data science (termasuk Pandas, Matplotlib) dan Jupyter Notebook sekaligus, tanpa perlu setting manual satu-satu.</p>
+<ol>
+<li>Download Anaconda dari anaconda.com (pilih versi sesuai OS: Windows/Mac/Linux) — pilih yang gratis (Anaconda Distribution).</li>
+<li>Install seperti aplikasi biasa (Next-Next-Finish), tidak perlu setting tambahan untuk pemula.</li>
+<li>Buka aplikasi <b>Anaconda Navigator</b>, lalu klik "Launch" pada <b>Jupyter Notebook</b>.</li>
+<li>Jupyter Notebook akan terbuka di browser — ini adalah tempat kamu menulis dan menjalankan kode Python baris per baris, sambil langsung melihat hasilnya (tabel, grafik, dll).</li>
+</ol>
+<p><b>Kenapa Jupyter Notebook, bukan text editor biasa?</b> Karena kamu bisa menjalankan kode sepotong-sepotong (per "cell") dan langsung melihat hasilnya — sangat cocok untuk eksplorasi data dibanding menulis program besar sekaligus.</p>`
+  },
+  "t3-2": {
+    title: "Dasar Python: Variabel, Tipe Data, List, Dictionary, Loop, Function",
+    body: `<p>Kamu tidak perlu jadi programmer mahir, cukup paham dasar ini karena akan terus dipakai saat memakai Pandas nanti.</p>
+<pre># Variabel & tipe data
+nama = "Budi"          # string (teks)
+umur = 25               # integer (angka bulat)
+tinggi = 170.5          # float (angka desimal)
+
+# List — kumpulan data berurutan
+kota = ["Jakarta", "Bandung", "Surabaya"]
+print(kota[0])          # Jakarta
+
+# Dictionary — data berpasangan key-value
+produk = {"nama": "Laptop", "harga": 8000000}
+print(produk["harga"])  # 8000000
+
+# Loop — mengulang proses
+for k in kota:
+    print(k)
+
+# Function — kode yang bisa dipakai ulang
+def diskon(harga, persen):
+    return harga - (harga * persen / 100)
+
+print(diskon(100000, 10))  # 90000</pre>
+<p><b>Fokus latihan:</b> List dan Dictionary paling penting karena Pandas DataFrame (materi minggu depan) sebenarnya dibangun dari konsep ini. Loop dan function cukup paham logikanya saja, tidak perlu mahir menulis program kompleks.</p>`
+  },
+  "t3-3": {
+    title: "DataFrame & Series di Pandas",
+    body: `<p>Pandas adalah library Python paling penting untuk data analyst — bayangkan seperti Excel tapi bisa memproses jutaan baris dalam hitungan detik lewat kode.</p>
+<pre>import pandas as pd
+
+data = {
+    "produk": ["Laptop", "Mouse", "Keyboard"],
+    "harga": [8000000, 150000, 300000]
+}
+df = pd.DataFrame(data)
+print(df)</pre>
+<ul>
+<li><b>DataFrame</b> — tabel 2 dimensi (baris & kolom), setara dengan satu sheet penuh di Excel.</li>
+<li><b>Series</b> — satu kolom tunggal dari DataFrame, misal <code>df["harga"]</code> adalah sebuah Series.</li>
+</ul>
+<p>Hampir semua pekerjaan analisis data di Python akan berputar di sekitar memanipulasi DataFrame ini: memilih kolom, menyaring baris, mengelompokkan, menghitung statistik, sampai membuat visualisasi. Menguasai konsep ini adalah fondasi seluruh materi bulan ini.</p>`
+  },
+  "t3-4": {
+    title: "read_csv, Filtering, Memilih Kolom, Sorting",
+    body: `<p>Ini adalah operasi paling sering dipakai untuk mulai bekerja dengan dataset nyata.</p>
+<pre>import pandas as pd
+
+df = pd.read_csv("data_penjualan.csv")
+
+# Melihat 5 baris pertama
+df.head()
+
+# Memilih satu kolom
+df["kategori"]
+
+# Memilih beberapa kolom
+df[["produk", "harga"]]
+
+# Filtering baris (mirip WHERE di SQL)
+df[df["kategori"] == "Elektronik"]
+df[df["harga"] > 100000]
+
+# Sorting
+df.sort_values("harga", ascending=False)</pre>
+<p><code>read_csv()</code> adalah cara paling umum memuat data ke Pandas. Filtering menggunakan sintaks <code>df[kondisi]</code> mungkin terlihat aneh di awal, tapi setelah 5-10 kali latihan akan terasa natural — logikanya sama seperti WHERE di SQL yang sudah kamu pelajari bulan lalu.</p>`
+  },
+  "t3-5": {
+    title: "GroupBy & Agregasi di Pandas",
+    body: `<p>Persis seperti GROUP BY di SQL dan Pivot Table di Excel — kamu sudah paham konsepnya dari 2 bulan sebelumnya, tinggal menerapkan dalam kode Python.</p>
+<pre>import pandas as pd
+
+df = pd.read_csv("data_penjualan.csv")
+
+# Total penjualan per kategori
+df.groupby("kategori")["total_harga"].sum()
+
+# Beberapa agregasi sekaligus
+df.groupby("kategori")["total_harga"].agg(["sum", "mean", "count"])
+
+# Group by lebih dari satu kolom
+df.groupby(["kategori", "bulan"])["total_harga"].sum()</pre>
+<p>Karena kamu sudah paham GROUP BY dari SQL dan Pivot Table dari Excel, materi ini sebenarnya bukan konsep baru — hanya sintaks baru untuk hal yang sama. Ini contoh nyata kenapa urutan roadmap (Excel → SQL → Python) membuat belajar jadi lebih mudah, bukan lebih susah.</p>`
+  },
+  "t3-6": {
+    title: "Menangani Missing Values: dropna & fillna",
+    body: `<p>Data mentah di dunia nyata hampir selalu ada bagian yang kosong (missing values) — dan cara kamu menanganinya sangat berpengaruh terhadap hasil analisis.</p>
+<pre>import pandas as pd
+
+df = pd.read_csv("data_penjualan.csv")
+
+# Cek berapa banyak nilai kosong per kolom
+df.isnull().sum()
+
+# Menghapus baris yang ada nilai kosong
+df_bersih = df.dropna()
+
+# Mengisi nilai kosong dengan nilai tertentu
+df["harga"] = df["harga"].fillna(0)
+df["kategori"] = df["kategori"].fillna("Tidak Diketahui")
+
+# Mengisi dengan rata-rata (lebih masuk akal untuk angka)
+df["harga"] = df["harga"].fillna(df["harga"].mean())</pre>
+<p><b>Kapan hapus, kapan isi?</b> Kalau data kosongnya sedikit (di bawah 5% dari total) dan tidak penting, <code>dropna()</code> lebih aman. Kalau kolom itu penting dan datanya banyak yang kosong, lebih baik diisi (<code>fillna</code>) dengan nilai yang masuk akal seperti rata-rata, median, atau "Tidak Diketahui" — jangan asal dihapus karena bisa menghilangkan informasi penting.</p>`
+  },
+  "t3-7": {
+    title: "Menghapus Duplikat & Memperbaiki Format Data",
+    body: `<p>Selain data kosong, masalah umum lain adalah data duplikat dan format yang tidak konsisten (misal "Jakarta" vs "jakarta" vs "JKT" dianggap 3 kota berbeda oleh komputer).</p>
+<pre>import pandas as pd
+
+df = pd.read_csv("data_penjualan.csv")
+
+# Cek & hapus duplikat
+print(df.duplicated().sum())
+df = df.drop_duplicates()
+
+# Merapikan teks: huruf kecil semua, hapus spasi berlebih
+df["kota"] = df["kota"].str.lower().str.strip()
+
+# Mengubah kolom jadi format tanggal yang benar
+df["tanggal"] = pd.to_datetime(df["tanggal"])
+
+# Ambil bulan dari tanggal
+df["bulan"] = df["tanggal"].dt.month</pre>
+<p><code>str.lower()</code> dan <code>str.strip()</code> menyelesaikan masalah klasik "data sama tapi dianggap beda" akibat kapitalisasi atau spasi tersembunyi. <code>pd.to_datetime()</code> penting supaya Pandas mengenali kolom tanggal sebagai tanggal sungguhan, bukan sekadar teks — ini yang memungkinkanmu mengelompokkan data per bulan/tahun dengan mudah.</p>`
+  },
+  "t3-8": {
+    title: "Menggabungkan Tabel dengan Merge/Join di Pandas",
+    body: `<p>Sama seperti JOIN di SQL, di Pandas kamu punya fungsi <code>merge()</code> untuk menggabungkan dua DataFrame berdasarkan kolom yang sama.</p>
+<pre>import pandas as pd
+
+orders = pd.read_csv("orders.csv")
+customers = pd.read_csv("customers.csv")
+
+# Inner join — hanya baris yang cocok di kedua tabel
+gabungan = pd.merge(orders, customers, on="customer_id", how="inner")
+
+# Left join — semua baris orders dipertahankan
+gabungan = pd.merge(orders, customers, on="customer_id", how="left")</pre>
+<p>Parameter <code>how</code> persis sama logikanya dengan SQL: <code>"inner"</code> setara INNER JOIN, <code>"left"</code> setara LEFT JOIN. Kolom <code>on</code> menentukan kolom kunci yang menghubungkan kedua tabel (harus ada di kedua DataFrame dengan nama yang sama, atau gunakan <code>left_on</code>/<code>right_on</code> jika namanya beda).</p>
+<p>Skill ini penting karena dataset nyata dari Kaggle sering dipecah jadi beberapa file CSV (misal orders.csv, products.csv, customers.csv terpisah) yang harus kamu gabungkan sendiri sebelum bisa dianalisis.</p>`
+  },
+  "t3-9": {
+    title: "Visualisasi dengan Matplotlib & Seaborn",
+    body: `<p>Matplotlib adalah library visualisasi dasar di Python, sementara Seaborn dibangun di atas Matplotlib dan membuat grafik terlihat lebih rapi dengan kode lebih singkat.</p>
+<pre>import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Bar chart — total penjualan per kategori
+sns.barplot(data=df, x="kategori", y="total_harga")
+plt.title("Total Penjualan per Kategori")
+plt.show()
+
+# Line chart — tren penjualan per bulan
+df.groupby("bulan")["total_harga"].sum().plot(kind="line")
+plt.show()
+
+# Histogram — distribusi harga produk
+sns.histplot(df["harga"], bins=20)
+plt.show()
+
+# Scatter plot — hubungan dua variabel numerik
+sns.scatterplot(data=df, x="harga", y="rating")
+plt.show()</pre>
+<p><b>Kapan pakai yang mana?</b> Sama seperti prinsip chart di Excel (bar untuk perbandingan, line untuk tren waktu), ditambah <b>histogram</b> untuk melihat sebaran/distribusi satu variabel, dan <b>scatter plot</b> untuk melihat apakah dua variabel numerik saling berhubungan.</p>`
+  },
+  "t3-10": {
+    title: "Panduan Mengerjakan Mini Project Bulan 3",
+    body: `<p>Project ini membuktikan kamu bisa menangani dataset kotor dari nol sampai menghasilkan insight — skenario paling realistis dalam pekerjaan data analyst sungguhan.</p>
+<ol>
+<li><b>Cari dataset "kotor"</b> di Kaggle — cari yang deskripsinya menyebutkan ada missing values, atau sengaja pilih dataset lama/mentah yang belum dibersihkan orang lain.</li>
+<li><b>Eksplorasi awal:</b> <code>df.info()</code>, <code>df.describe()</code>, dan <code>df.isnull().sum()</code> untuk memahami kondisi data.</li>
+<li><b>Bersihkan data:</b> tangani missing values, hapus duplikat, perbaiki format (tanggal, teks, angka) — pakai semua teknik minggu 3.</li>
+<li><b>Analisis:</b> gunakan groupby untuk mencari pola (contoh: kategori mana yang paling banyak masalah datanya, atau tren penjualan setelah data dibersihkan).</li>
+<li><b>Buat 3 visualisasi</b> dengan Matplotlib/Seaborn yang masing-masing menjawab satu insight berbeda.</li>
+<li><b>Simpan sebagai Jupyter Notebook (.ipynb)</b> lengkap dengan catatan teks (markdown cell) yang menjelaskan setiap langkah — ini penting supaya orang lain (atau recruiter) bisa memahami proses berpikirmu, bukan cuma melihat kode.</li>
+</ol>`
+  },
+  "t4-1": {
+    title: "Kapan Pakai Bar, Line, Pie, atau Scatter Plot",
+    body: `<p>Ini adalah pengulangan sekaligus pendalaman dari prinsip chart yang sudah kamu pelajari di Excel (Bulan 1) — sekarang diterapkan dalam konteks membangun dashboard profesional.</p>
+<ul>
+<li><b>Bar chart</b> — perbandingan antar kategori. Paling aman dan paling sering dipakai di dashboard bisnis.</li>
+<li><b>Line chart</b> — tren dari waktu ke waktu. Selalu gunakan untuk data time-series (penjualan per hari/bulan/tahun).</li>
+<li><b>Pie chart</b> — gunakan sangat jarang, hanya untuk proporsi sederhana dengan sedikit kategori (maksimal 4-5). Banyak dashboard profesional justru menghindari pie chart karena susah dibandingkan secara visual.</li>
+<li><b>Scatter plot</b> — melihat hubungan/korelasi antara dua variabel numerik, misal harga vs rating produk.</li>
+</ul>
+<p>Kesalahan paling umum pemula adalah memilih chart yang "terlihat keren" padahal tidak sesuai jenis datanya. Selalu tanyakan dulu: "pertanyaan apa yang ingin dijawab chart ini?" baru pilih jenisnya.</p>`
+  },
+  "t4-2": {
+    title: "Prinsip Dasar Dashboard yang Enak Dibaca",
+    body: `<p>Dashboard yang baik bukan yang paling banyak grafiknya, tapi yang paling cepat dipahami dalam 5 detik pertama. Berikut prinsip dasarnya:</p>
+<ul>
+<li><b>Hierarki visual</b> — informasi paling penting (KPI utama) diletakkan di posisi paling mencolok, biasanya kiri atas atau baris paling atas dengan ukuran teks lebih besar.</li>
+<li><b>Warna konsisten</b> — gunakan maksimal 2-3 warna utama untuk seluruh dashboard, dan gunakan warna yang sama untuk merepresentasikan hal yang sama di semua chart (misal biru selalu untuk "tahun ini", abu-abu untuk "tahun lalu").</li>
+<li><b>Hindari 3D dan pie chart berlebihan</b> — efek 3D membuat perbandingan nilai jadi tidak akurat secara visual dan hanya menambah "noise" tanpa menambah informasi.</li>
+<li><b>Jangan terlalu ramai</b> — maksimal 5-7 visual per halaman dashboard. Kalau lebih, pecah jadi beberapa halaman/tab.</li>
+<li><b>Beri konteks</b> — angka tanpa pembanding tidak berguna. "Penjualan 500 juta" kurang informatif dibanding "Penjualan 500 juta, naik 12% dari bulan lalu".</li>
+</ul>`
+  },
+  "t4-3": {
+    title: "Instalasi Tableau Public / Power BI Desktop",
+    body: `<p>Pilih salah satu dulu agar fokus. Berikut panduan singkatnya:</p>
+<p><b>Tableau Public (gratis selamanya, bisa Windows & Mac):</b></p>
+<ol>
+<li>Download dari tableau.com/products/public.</li>
+<li>Install seperti aplikasi biasa.</li>
+<li>Catatan: workbook yang kamu buat di Tableau Public otomatis tersimpan online dan bisa dilihat publik — cocok untuk portofolio, tapi jangan pakai data sensitif/rahasia.</li>
+</ol>
+<p><b>Power BI Desktop (gratis, khusus Windows):</b></p>
+<ol>
+<li>Download dari powerbi.microsoft.com/downloads.</li>
+<li>Install seperti aplikasi biasa — tidak perlu akun untuk mulai memakai versi Desktop.</li>
+</ol>
+<p><b>Mana yang harus dipilih?</b> Kalau kamu pengguna Mac, pilih Tableau Public (Power BI Desktop tidak tersedia untuk Mac). Kalau Windows, keduanya banyak dipakai perusahaan Indonesia — Power BI sedikit lebih umum di perusahaan lokal, sementara Tableau lebih umum di perusahaan multinasional. Pilih salah satu untuk fokus dulu; skill di satu tools mudah dipindahkan ke tools lain nantinya.</p>`
+  },
+  "t4-4": {
+    title: "Menghubungkan Dataset & Mengenal Interface",
+    body: `<p>Langkah pertama setelah install adalah membiasakan diri dengan cara kerja drag-and-drop, yang cukup berbeda dari menulis formula/kode.</p>
+<p><b>Di Tableau Public:</b></p>
+<ol>
+<li>Klik "Connect to Data" → pilih "Text file" atau "Microsoft Excel" → pilih file CSV/Excel-mu.</li>
+<li>Kamu akan masuk ke tab "Sheet" tempat ada panel <b>Dimensions</b> (data kategori/teks) dan <b>Measures</b> (data angka) di kiri.</li>
+<li>Seret sebuah Dimension ke area "Columns" dan Measure ke "Rows" — chart otomatis muncul.</li>
+</ol>
+<p><b>Di Power BI Desktop:</b></p>
+<ol>
+<li>Klik "Get Data" → pilih "Text/CSV" atau "Excel" → pilih file-mu → klik "Load".</li>
+<li>Data akan muncul di panel "Fields" di kanan.</li>
+<li>Seret field ke canvas kosong di tengah untuk membuat visual pertama.</li>
+</ol>
+<p>Luangkan waktu khusus minggu ini hanya untuk "bermain-main" dengan interface — seret berbagai kombinasi field dan lihat apa yang terjadi, tanpa target tertentu, supaya terbiasa dengan cara berpikir drag-and-drop.</p>`
+  },
+  "t4-5": {
+    title: "Membuat Dashboard dari Beberapa Visual",
+    body: `<p>Setelah nyaman dengan satu visual, saatnya menggabungkan beberapa visual jadi satu dashboard utuh.</p>
+<p><b>Langkah umum (berlaku di Tableau maupun Power BI):</b></p>
+<ol>
+<li>Buat 3-4 chart terpisah terlebih dahulu (masing-masing di "sheet"/halaman berbeda): misal 1 bar chart penjualan per kategori, 1 line chart tren bulanan, 1 KPI card total penjualan, 1 tabel top produk.</li>
+<li>Buat halaman baru khusus dashboard (di Tableau: klik kanan → "New Dashboard"; di Power BI, dashboard adalah canvas itu sendiri).</li>
+<li>Seret masing-masing chart/sheet ke canvas dashboard, atur ukuran dan posisinya mengikuti prinsip hierarki visual yang sudah kamu pelajari minggu 1.</li>
+<li>Beri judul dashboard yang jelas, misal "Dashboard Penjualan Q1 2026".</li>
+</ol>
+<p><b>Tips:</b> mulai dari layout sederhana (2x2 grid) dulu sebelum mencoba layout kompleks. Dashboard yang efektif biasanya justru simpel, bukan yang paling ramai.</p>`
+  },
+  "t4-6": {
+    title: "Menambahkan Filter Interaktif",
+    body: `<p>Filter interaktif mengubah dashboard dari sekadar "gambar statis" jadi tools eksplorasi yang bisa dipakai user lain secara mandiri — ini yang membedakan dashboard profesional dari laporan biasa.</p>
+<p><b>Di Tableau Public:</b> klik chart yang ingin diberi filter → klik ikon dropdown di pojok kanan atas field yang relevan (misal "Kategori") → pilih "Show Filter". Filter akan muncul di sisi dashboard dan otomatis mempengaruhi semua chart yang terhubung ke field tersebut.</p>
+<p><b>Di Power BI:</b> tambahkan visual "Slicer" dari panel visualisasi, lalu seret field yang ingin dijadikan filter (misal "Kategori" atau "Tanggal") ke slicer tersebut. Semua visual lain di halaman yang sama otomatis akan ikut ter-filter.</p>
+<p><b>Latihan:</b> tambahkan minimal 2 filter ke dashboard yang kamu buat minggu lalu — misal filter berdasarkan kategori produk dan filter berdasarkan rentang tanggal. Coba klik-klik filter tersebut dan lihat bagaimana semua chart bereaksi secara real-time.</p>`
+  },
+  "t4-7": {
+    title: "Panduan Mengerjakan Mini Project Bulan 4",
+    body: `<p>Project ini adalah simulasi paling mendekati pekerjaan nyata: membuat dashboard bisnis yang siap dipakai atasan untuk mengambil keputusan.</p>
+<ol>
+<li><b>Pilih tema:</b> dashboard penjualan atau dashboard HR (dua tema paling umum diminta perusahaan).</li>
+<li><b>Tentukan KPI utama</b> yang wajib ada, contoh untuk dashboard penjualan: Total Revenue, Jumlah Transaksi, Rata-rata Nilai Transaksi, Growth % dibanding periode lalu.</li>
+<li><b>Buat KPI card</b> untuk masing-masing angka di atas — biasanya diletakkan di baris paling atas dashboard.</li>
+<li><b>Tambahkan tren waktu</b> (line chart) dan <b>breakdown per kategori</b> (bar chart) di bawahnya.</li>
+<li><b>Tambahkan minimal 2 filter interaktif</b> (misal per bulan dan per kategori).</li>
+<li><b>Beri judul & sedikit anotasi/keterangan</b> supaya orang yang belum pernah lihat dashboard ini tetap paham cara membacanya.</li>
+</ol>
+<p>Setelah selesai, minta feedback dari teman (meskipun bukan orang data) — kalau mereka bisa memahami dashboard-mu dalam waktu kurang dari 30 detik tanpa penjelasan panjang, berarti dashboard-mu sudah efektif.</p>`
+  },
+  "t4-8": {
+    title: "Publish Dashboard ke Tableau Public",
+    body: `<p>Mempublikasikan dashboard membuatnya bisa dibagikan lewat link, jadi bagian penting portofolio online yang bisa langsung ditunjukkan ke recruiter tanpa perlu mengirim file.</p>
+<ol>
+<li>Buat akun gratis di public.tableau.com (kalau belum punya).</li>
+<li>Di aplikasi Tableau Public, klik menu <b>File → Save to Tableau Public</b>.</li>
+<li>Login dengan akun yang sudah dibuat, beri nama workbook yang jelas (misal "Dashboard Analisis Penjualan Retail").</li>
+<li>Setelah ter-upload, kamu akan mendapat link publik yang bisa dibagikan ke siapa saja, termasuk di CV atau LinkedIn.</li>
+</ol>
+<p><b>Untuk Power BI</b>, kamu bisa memakai fitur "Publish to web" (khusus untuk dashboard yang tidak berisi data sensitif) atau memasukkan screenshot/video demo dashboard ke portofolio GitHub-mu di Bulan 6.</p>
+<p><b>Catatan penting:</b> karena Tableau Public bersifat publik, jangan pernah upload dashboard yang berisi data pribadi/rahasia asli — selalu gunakan dataset publik dari Kaggle atau sumber terbuka lainnya.</p>`
+  },
+  "t5-1": {
+    title: "Correlation vs Causation",
+    body: `<p>Ini adalah salah satu konsep paling sering ditanyakan saat interview data analyst, karena kesalahan menyimpulkan sebab-akibat bisa berakibat fatal dalam pengambilan keputusan bisnis.</p>
+<p><b>Correlation (korelasi)</b> — dua variabel bergerak bersamaan (naik/turun bareng), tapi belum tentu satu menyebabkan yang lain.</p>
+<p><b>Causation (kausalitas)</b> — satu variabel benar-benar menyebabkan perubahan pada variabel lain.</p>
+<p><b>Contoh klasik:</b> penjualan es krim dan jumlah kasus tenggelam sama-sama naik di musim panas — keduanya berkorelasi tinggi. Tapi bukan berarti makan es krim menyebabkan orang tenggelam! Penyebab sebenarnya adalah variabel ketiga: cuaca panas (lebih banyak orang berenang DAN lebih banyak orang beli es krim).</p>
+<p><b>Kenapa penting bagi data analyst:</b> kalau kamu menemukan "toko yang pakai promo X penjualannya naik", jangan langsung simpulkan "promo X menyebabkan penjualan naik" — bisa jadi toko itu memang sudah ramai duluan, atau kebetulan waktunya bersamaan musim liburan. Selalu pertanyakan kemungkinan variabel lain sebelum menyimpulkan sebab-akibat.</p>`
+  },
+  "t5-2": {
+    title: "Dasar Hypothesis Testing",
+    body: `<p>Hypothesis testing adalah cara statistik untuk menjawab: "apakah perbedaan yang saya lihat di data ini nyata/signifikan, atau cuma kebetulan?"</p>
+<p><b>Contoh kasus:</b> tim marketing bilang "setelah ganti warna tombol beli jadi merah, konversi naik dari 5% ke 5.3%". Pertanyaannya: apakah kenaikan 0.3% ini benar-benar karena warna tombol, atau cuma fluktuasi acak yang kebetulan terjadi?</p>
+<p><b>Konsep kunci yang perlu dipahami (tanpa perlu menghitung manual):</b></p>
+<ul>
+<li><b>Hipotesis nol (H0)</b> — asumsi bahwa "tidak ada perbedaan nyata" (warna tombol tidak berpengaruh).</li>
+<li><b>P-value</b> — angka yang menunjukkan seberapa besar kemungkinan hasil yang kamu lihat terjadi murni karena kebetulan. P-value kecil (biasanya di bawah 0.05) berarti hasilnya kemungkinan besar memang nyata, bukan kebetulan.</li>
+<li><b>Signifikansi statistik</b> — kesimpulan bahwa perbedaan yang diamati cukup meyakinkan untuk dipercaya, bukan sekadar noise data.</li>
+</ul>
+<p>Sebagai data analyst pemula, kamu tidak perlu menghitung p-value manual — cukup paham konsepnya dan tahu kapan harus skeptis terhadap kesimpulan yang terburu-buru dari data yang sedikit atau fluktuatif.</p>`
+  },
+  "t5-3": {
+    title: "Regresi Linier Sederhana",
+    body: `<p>Regresi linier adalah cara melihat dan mengukur hubungan antara dua variabel numerik — misalnya apakah biaya iklan berhubungan dengan jumlah penjualan.</p>
+<p>Bayangkan kamu plot data biaya iklan (sumbu X) vs penjualan (sumbu Y) dalam scatter plot. Kalau titik-titiknya cenderung membentuk garis naik, regresi linier akan mencari <b>garis lurus terbaik</b> yang paling mewakili pola tersebut, dalam bentuk persamaan:</p>
+<pre>Penjualan = a + b × Biaya_Iklan</pre>
+<p>Di mana <code>b</code> menunjukkan: setiap kenaikan 1 juta biaya iklan, penjualan diperkirakan naik sebesar b. Semakin dekat titik-titik data ke garis ini, semakin kuat hubungan keduanya (diukur dengan angka <b>R²</b>, semakin mendekati 1 semakin kuat hubungannya).</p>
+<p>Di Python, ini bisa dilakukan dengan beberapa baris kode memakai library <code>scikit-learn</code> atau bahkan cukup dengan <code>seaborn.regplot()</code> untuk visualisasi cepatnya. Sebagai pemula, fokus dulu memahami konsepnya lewat visualisasi, tidak perlu menghitung rumus manual.</p>`
+  },
+  "t5-4": {
+    title: "Exploratory Data Analysis (EDA) End-to-End",
+    body: `<p>Ini adalah latihan menggabungkan SEMUA skill yang sudah kamu pelajari selama 4 bulan ke dalam satu alur kerja utuh, seperti yang akan kamu lakukan sungguhan saat bekerja nanti.</p>
+<p><b>Alur latihan yang disarankan:</b></p>
+<ol>
+<li><b>Ambil data via SQL</b> — tulis query untuk mengambil dan menyaring data mentah yang relevan dari database (bisa pakai SQLite dari project bulan 2).</li>
+<li><b>Bersihkan & analisis di Python</b> — import hasil query ke Pandas, tangani missing values, duplikat, dan lakukan groupby untuk melihat pola awal.</li>
+<li><b>Cek angka ringkas di Excel</b> — kalau perlu validasi cepat atau membuat ringkasan kecil untuk dicek ulang, spreadsheet masih berguna untuk sanity-check.</li>
+<li><b>Visualisasi di Tableau/Power BI</b> — hasil akhir yang sudah bersih dan matang divisualisasikan jadi dashboard yang bisa dibaca orang non-teknis.</li>
+</ol>
+<p>Latihan ini penting karena di pekerjaan nyata, data analyst jarang hanya memakai satu tools — biasanya berpindah dari SQL ke Python ke tools visualisasi dalam satu alur kerja yang sama.</p>`
+  },
+  "t5-5": {
+    title: "Mulai EDA dari Pertanyaan Bisnis, Bukan dari Data",
+    body: `<p>Ini adalah pergeseran cara berpikir yang membedakan analyst pemula dari yang sudah berpengalaman.</p>
+<p><b>Cara yang salah (kebiasaan pemula):</b> buka dataset, lalu bingung "mau dianalisis apa ya data ini?" — akhirnya membuat chart random tanpa arah yang jelas.</p>
+<p><b>Cara yang benar:</b> mulai dengan pertanyaan bisnis dulu, baru cari data yang relevan untuk menjawabnya. Contoh pertanyaan bisnis yang baik:</p>
+<ul>
+<li>"Kenapa penjualan bulan ini turun dibanding bulan lalu?"</li>
+<li>"Produk mana yang sebaiknya kita stop produksi karena tidak menguntungkan?"</li>
+<li>"Kota mana yang paling potensial untuk ekspansi toko baru?"</li>
+</ul>
+<p>Setiap pertanyaan ini akan mengarahkanmu untuk mengambil data spesifik, membuat visual spesifik, dan menghasilkan kesimpulan yang benar-benar bisa dipakai untuk mengambil keputusan — bukan sekadar "menampilkan data" tanpa tujuan. Biasakan pola ini untuk semua project ke depannya, termasuk final project di Bulan 6.</p>`
+  },
+  "t5-6": {
+    title: "Struktur Data Storytelling: Konteks → Temuan → Rekomendasi",
+    body: `<p>Insight yang bagus tapi disampaikan dengan buruk akan diabaikan. Gunakan struktur 3 bagian ini setiap kali membuat laporan:</p>
+<ol>
+<li><b>Konteks</b> — jelaskan latar belakang singkat: apa pertanyaan bisnis yang dijawab, dan kenapa itu penting. Contoh: "Tim marketing ingin tahu efektivitas kampanye diskon bulan lalu terhadap penjualan."</li>
+<li><b>Temuan</b> — sampaikan hasil analisis dengan angka konkret, urutkan dari yang paling penting. Contoh: "Penjualan naik 18% selama periode diskon, terutama didorong kategori Fashion (naik 35%). Namun margin keuntungan turun 5% karena diskon terlalu besar."</li>
+<li><b>Rekomendasi</b> — beri saran tindakan yang jelas dan actionable, bukan cuma "kesimpulan". Contoh: "Sebaiknya diskon kategori Fashion diturunkan dari 30% ke 20% pada kampanye berikutnya, karena penjualan tetap naik signifikan bahkan dengan diskon lebih kecil."</li>
+</ol>
+<p>Struktur ini yang membuat laporanmu terasa seperti "solusi", bukan sekadar tumpukan angka. Latih struktur ini di setiap mini project yang sudah kamu kerjakan sebelumnya — coba tulis ulang kesimpulannya memakai format ini.</p>`
+  },
+  "t5-7": {
+    title: "Menjelaskan Hasil Analisis ke Orang Non-Teknis",
+    body: `<p>Skill komunikasi ini sama pentingnya dengan skill teknis, karena hasil analisismu tidak berguna kalau tidak dipahami oleh orang yang mengambil keputusan (biasanya bukan orang data).</p>
+<p><b>Tips praktis:</b></p>
+<ul>
+<li><b>Hindari jargon teknis</b> — jangan bilang "kita lakukan regresi linier dan hasilnya R-squared 0.7", cukup bilang "biaya iklan dan penjualan punya hubungan yang cukup kuat — makin banyak biaya iklan, penjualan cenderung ikut naik".</li>
+<li><b>Pakai analogi sehari-hari</b> — misal menjelaskan outlier sebagai "satu transaksi yang jauh lebih besar dari biasanya, seperti ada yang tiba-tiba beli 1000 unit sekaligus, jadi mempengaruhi rata-rata."</li>
+<li><b>Mulai dari kesimpulan, baru detail</b> — orang sibuk biasanya hanya punya waktu mendengar 1 kalimat kesimpulan dulu, baru bertanya detail kalau tertarik. Jangan mulai presentasi dari metodologi.</li>
+<li><b>Gunakan visual, bukan tabel angka mentah</b> — satu grafik sederhana sering lebih efektif daripada tabel berisi puluhan angka.</li>
+</ul>
+<p><b>Latihan:</b> ambil salah satu mini project sebelumnya, coba jelaskan hasilnya ke teman/keluarga yang tidak paham data dalam waktu maksimal 2 menit, tanpa istilah teknis sama sekali.</p>`
+  },
+  "t5-8": {
+    title: "Memilih Topik & Dataset Final Project",
+    body: `<p>Final project ini akan jadi "bintang utama" portofoliomu, jadi pemilihan topik penting agar hasilnya relevan dengan pekerjaan data analyst di perusahaan sungguhan.</p>
+<p><b>Topik yang direkomendasikan (paling relate dengan lowongan kerja nyata):</b></p>
+<ul>
+<li><b>E-commerce / Retail</b> — analisis penjualan, produk terlaris, perilaku pelanggan.</li>
+<li><b>HR / Karyawan</b> — analisis turnover/resign, faktor kepuasan kerja.</li>
+<li><b>Marketing</b> — efektivitas kampanye, customer segmentation.</li>
+<li><b>Finance</b> — analisis pengeluaran, deteksi anomali transaksi.</li>
+</ul>
+<p><b>Kriteria memilih dataset yang baik:</b></p>
+<ul>
+<li>Punya minimal 1000+ baris data (supaya insight-nya lebih meyakinkan)</li>
+<li>Punya kombinasi data kategori (teks) dan angka</li>
+<li>Idealnya punya kolom tanggal (supaya bisa menganalisis tren waktu)</li>
+<li>Sebisa mungkin sedikit "kotor" (ada missing value/duplikat) supaya kamu bisa menunjukkan skill data cleaning juga</li>
+</ul>
+<p>Cari di Kaggle Datasets dengan kata kunci sesuai topik pilihanmu, lalu baca deskripsi datasetnya dengan teliti sebelum memutuskan.</p>`
+  },
+  "t5-9": {
+    title: "Menyusun Pertanyaan Bisnis untuk Final Project",
+    body: `<p>Sesuai prinsip yang kamu pelajari di minggu 2 (mulai dari pertanyaan bisnis, bukan dari data), langkah ini krusial sebelum mulai mengerjakan final project.</p>
+<p><b>Contoh pertanyaan bisnis yang baik untuk dataset e-commerce:</b></p>
+<ol>
+<li>Produk/kategori apa yang paling menguntungkan dan sebaiknya menjadi fokus stok?</li>
+<li>Bulan/musim apa penjualan paling tinggi, dan apa yang menyebabkannya?</li>
+<li>Kota/wilayah mana yang paling potensial untuk ekspansi?</li>
+<li>Apakah ada pola pelanggan yang sering repeat order, dan apa karakteristiknya?</li>
+<li>Adakah produk yang stoknya sering menumpuk (tidak laku) yang sebaiknya dihentikan?</li>
+</ol>
+<p><b>Ciri pertanyaan bisnis yang baik:</b> jawabannya bisa langsung dipakai untuk keputusan nyata (bukan cuma "menarik untuk diketahui"), dan bisa dijawab dengan data yang tersedia di datasetmu. Tulis 3-5 pertanyaan ini di awal notebook/dokumen final project — ini akan jadi kerangka seluruh project bulan depan.</p>`
+  },
+  "t6-1": {
+    title: "Cara Mengerjakan Final Project Secara Sistematis",
+    body: `<p>Ini adalah puncak dari seluruh roadmap — waktunya menggabungkan semua skill (Excel, SQL, Python, Tableau/Power BI, storytelling) dalam satu project utuh.</p>
+<p><b>Urutan pengerjaan yang disarankan (ikuti 6 step di bagian "Spesifikasi Final Project" pada halaman ini):</b></p>
+<ol>
+<li>Pastikan pertanyaan bisnis dari Bulan 5 sudah jelas sebelum mulai coding.</li>
+<li>Kerjakan satu tahap dulu sampai selesai sebelum lanjut ke tahap berikutnya — jangan loncat-loncat antara SQL, Python, dan dashboard sekaligus.</li>
+<li>Dokumentasikan setiap keputusan yang kamu ambil (kenapa hapus baris tertentu, kenapa pilih chart tertentu) — ini akan memudahkan menulis README nanti.</li>
+<li>Alokasikan waktu: sekitar 40% untuk ambil & bersihkan data, 30% untuk analisis, 30% untuk visualisasi & laporan.</li>
+<li>Jangan mengejar kesempurnaan di percobaan pertama — selesaikan versi kasar dulu end-to-end, baru perbaiki detailnya.</li>
+</ol>
+<p>Ingat: tujuan final project bukan membuat yang paling rumit, tapi menunjukkan kamu bisa mengerjakan satu alur kerja data analyst yang utuh dan menghasilkan insight yang masuk akal.</p>`
+  },
+  "t6-2": {
+    title: "Upload Project ke GitHub",
+    body: `<p>GitHub adalah tempat menyimpan dan memamerkan seluruh kode/project-mu secara online — praktis wajib punya untuk data analyst, meskipun kamu bukan programmer.</p>
+<ol>
+<li>Buat akun gratis di github.com.</li>
+<li>Buat repository baru untuk tiap project (misal <code>final-project-data-analyst</code>).</li>
+<li>Upload file-file project: notebook Python (.ipynb), file query SQL (.sql), file Excel, dan laporan (PDF).</li>
+<li>Buat file <code>README.md</code> di setiap repository yang menjelaskan: apa tujuan project, dataset yang dipakai, tools yang digunakan, dan ringkasan hasil/insight utama (bisa sertakan screenshot dashboard).</li>
+</ol>
+<p><b>Kenapa README penting?</b> Recruiter/hiring manager biasanya tidak sempat membaca seluruh kode — README yang jelas membantu mereka memahami project-mu hanya dalam waktu 1-2 menit. Anggap README sebagai "elevator pitch" tertulis dari project-mu.</p>
+<p>Kamu tidak perlu jago Git/command line untuk ini — GitHub menyediakan cara upload file langsung lewat browser (drag & drop) yang cukup untuk kebutuhan portofolio pemula.</p>`
+  },
+  "t6-3": {
+    title: "Publish Dashboard ke Tableau Public / Power BI",
+    body: `<p>Sama seperti yang kamu lakukan di Bulan 4, tapi kali ini khusus untuk dashboard final project-mu — pastikan ini adalah versi terbaik dan paling matang.</p>
+<ol>
+<li>Publish dashboard final project ke Tableau Public (File → Save to Tableau Public) atau siapkan file Power BI (.pbix) beserta beberapa screenshot berkualitas tinggi.</li>
+<li>Salin link publik Tableau Public-mu, lalu sertakan di README GitHub dan profil LinkedIn.</li>
+<li>Cek kembali: apakah dashboard bisa dipahami orang yang belum pernah melihat data ini sebelumnya? Minta 1-2 orang untuk mencoba dan beri masukan.</li>
+</ol>
+<p>Link dashboard yang bisa langsung diklik (bukan hanya screenshot) memberi kesan jauh lebih kuat ke recruiter dibanding sekadar gambar statis, karena mereka bisa mencoba filter interaktifnya sendiri.</p>`
+  },
+  "t6-4": {
+    title: "Optimasi Profil LinkedIn untuk Data Analyst",
+    body: `<p>LinkedIn sering menjadi tempat pertama recruiter menemukan kandidat, jadi profil yang rapi sangat berpengaruh terhadap peluangmu dipanggil interview.</p>
+<ul>
+<li><b>Judul/Headline:</b> tulis "Data Analyst | Excel, SQL, Python, Tableau" — jangan biarkan kosong atau hanya tulis "Mencari Pekerjaan", karena headline ini yang muncul di hasil pencarian recruiter.</li>
+<li><b>Ringkasan/About:</b> tulis 3-4 kalimat singkat: latar belakangmu, skill utama yang kamu kuasai, dan sertakan link ke portofolio GitHub/Tableau Public-mu.</li>
+<li><b>Bagian "Featured":</b> pin link dashboard Tableau Public dan repository GitHub final project-mu di sini, supaya langsung terlihat siapapun yang membuka profilmu.</li>
+<li><b>Skills:</b> tambahkan skill teknis: Excel, SQL, Python, Pandas, Tableau, Power BI, Data Visualization, Data Cleaning.</li>
+<li><b>Aktivitas:</b> sesekali share progres belajarmu atau insight kecil dari project — ini membantu profil lebih terlihat aktif oleh algoritma LinkedIn.</li>
+</ul>`
+  },
+  "t6-5": {
+    title: "Latihan Menjawab Pertanyaan Interview Umum",
+    body: `<p>Interview data analyst biasanya berisi pertanyaan tentang project-mu dan cara berpikirmu, bukan hanya hafalan teori. Berikut contoh pertanyaan umum dan cara menjawabnya:</p>
+<p><b>"Ceritakan satu project data yang paling berkesan"</b> — gunakan struktur: Situasi (dataset & tujuan) → Tugas (pertanyaan bisnis yang dijawab) → Aksi (langkah yang kamu ambil: cleaning, analisis, visualisasi) → Hasil (insight & dampaknya). Ini dikenal sebagai metode STAR.</p>
+<p><b>"Bagaimana kamu menangani data kotor?"</b> — ceritakan pengalaman nyata dari mini project-mu: cek missing values dengan <code>isnull()</code>, putuskan hapus atau isi berdasarkan konteks, hapus duplikat, standarisasi format. Beri contoh spesifik, jangan jawab teori umum saja.</p>
+<p><b>"Apa bedanya WHERE dan HAVING di SQL?"</b> — WHERE menyaring baris sebelum di-GROUP BY, HAVING menyaring hasil setelah di-GROUP BY (agregat).</p>
+<p><b>"Bagaimana kamu memastikan insight-mu benar?"</b> — jelaskan kebiasaan cross-check angka dari beberapa sudut, dan kehati-hatian membedakan korelasi vs kausalitas.</p>
+<p>Latih jawabanmu dengan bersuara (bukan cuma dibaca dalam hati), idealnya di depan teman atau rekam sendiri, supaya terbiasa menjawab dengan lancar saat interview sungguhan.</p>`
+  },
+  "t6-6": {
+    title: "Latihan Take-home Case Study",
+    body: `<p>Banyak perusahaan memberi tes kecil (take-home test) sebelum interview — biasanya berupa dataset kecil dengan beberapa pertanyaan yang harus dijawab dalam waktu 1-3 hari.</p>
+<p><b>Format umum take-home test:</b></p>
+<ul>
+<li>Diberi 1 file CSV/Excel dan beberapa pertanyaan bisnis.</li>
+<li>Diminta membuat analisis (biasanya bebas pakai Excel, SQL, atau Python) dan/atau dashboard sederhana.</li>
+<li>Diminta menjelaskan hasil dalam bentuk laporan singkat atau presentasi.</li>
+</ul>
+<p><b>Cara berlatih:</b> ambil salah satu mini project yang sudah kamu kerjakan sebelumnya (Bulan 1-5), coba kerjakan ulang dengan batas waktu ketat (misal 3 jam) seolah-olah itu adalah take-home test sungguhan. Fokus pada: kecepatan mengambil keputusan, kejelasan insight, dan kerapihan laporan akhir — bukan kesempurnaan teknis.</p>
+<p>Karena kamu sudah mengerjakan 5 mini project + 1 final project sepanjang roadmap ini, take-home test sebenarnya hanya versi lebih singkat dari yang sudah biasa kamu kerjakan.</p>`
+  },
+  "t6-7": {
+    title: "Strategi Melamar Posisi Data Analyst Entry-Level",
+    body: `<p>Setelah portofolio siap, saatnya mulai melamar secara aktif dan konsisten.</p>
+<ul>
+<li><b>Kata kunci pencarian lowongan:</b> "Data Analyst", "Junior Data Analyst", "Data Analyst Intern", "Business Analyst" (sering overlap dengan data analyst untuk level entry).</li>
+<li><b>Platform pencarian kerja:</b> LinkedIn Jobs, Glints, Kalibrr, JobStreet, dan langsung cek halaman karier perusahaan yang kamu incar.</li>
+<li><b>Sesuaikan CV untuk tiap lamaran</b> — highlight skill dan project yang paling relevan dengan deskripsi lowongan tersebut, jangan kirim CV generik yang sama untuk semua lowongan.</li>
+<li><b>Sertakan link portofolio</b> (GitHub & Tableau Public) di CV dan cover letter — ini yang membedakan kamu dari pelamar lain yang hanya menulis "bisa Excel, SQL, Python" tanpa bukti nyata.</li>
+<li><b>Target volume:</b> lamar secara konsisten (misal 5-10 lamaran per minggu) sambil terus memperbaiki portofolio berdasarkan feedback yang kamu dapat dari proses interview.</li>
+<li><b>Jangan berkecil hati kalau ditolak berkali-kali</b> — ini normal bagi hampir semua pelamar entry-level di bidang apapun. Setiap interview (bahkan yang gagal) adalah latihan gratis untuk interview berikutnya.</li>
+</ul>`
+  }
+};
+
+// ============================================================
+//  MODAL LOGIC
+// ============================================================
+const modal = document.getElementById('modal');
+const modalTitle = document.getElementById('modal-title');
+const modalBody = document.getElementById('modal-body');
+const modalClose = document.getElementById('modal-close');
+
+function openModal(id) {
+  const data = MATERI[id];
+  if (!data) {
+    modalTitle.textContent = 'Materi tidak ditemukan';
+    modalBody.innerHTML = '<p>Maaf, materi untuk tugas ini belum tersedia.</p>';
+  } else {
+    modalTitle.textContent = data.title;
+    modalBody.innerHTML = data.body;
+  }
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+modalClose.addEventListener('click', closeModal);
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// ============================================================
+//  ATTACH BACA BUTTONS
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.baca-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const id = btn.dataset.id;
+      if (id) openModal(id);
+    });
+  });
+});
+
+// ============================================================
+//  PROGRESS TRACKING (SAME AS ORIGINAL)
+// ============================================================
+const TOTAL_TASKS = 43;
+let state = {};
+
+async function loadState() {
+  try {
+    const res = await window.storage.get('progress-state', false);
+    if (res && res.value) { state = JSON.parse(res.value); }
+  } catch (e) { state = {}; }
+  applyState();
+  render();
+}
+
+async function saveState() {
+  try { await window.storage.set('progress-state', JSON.stringify(state), false); }
+  catch (e) { console.error('gagal menyimpan progres', e); }
+}
+
+function applyState() {
+  document.querySelectorAll('.task input[type=checkbox]').forEach(cb => {
+    if (state[cb.id]) {
+      cb.checked = true;
+      cb.closest('.task').classList.add('checked');
+    }
+  });
+}
+
+function getMonthTasks(m) {
+  return Array.from(document.querySelectorAll('.month[data-month="' + m + '"] .task input[type=checkbox]'));
+}
+
+function render() {
+  const allBoxes = Array.from(document.querySelectorAll('.task input[type=checkbox]'));
+  const totalDone = allBoxes.filter(b => b.checked).length;
+  const total = allBoxes.length;
+  const pct = total ? Math.round((totalDone / total) * 100) : 0;
+
+  document.getElementById('kpi-pct').textContent = pct + '%';
+  document.getElementById('kpi-tasks').textContent = totalDone + '/' + total;
+
+  let monthsDone = 0;
+  for (let m = 1; m <= 6; m++) {
+    const boxes = getMonthTasks(m);
+    const done = boxes.filter(b => b.checked).length;
+    const mpct = boxes.length ? Math.round((done / boxes.length) * 100) : 0;
+    const pctEl = document.querySelector('[data-pct="' + m + '"]');
+    const barEl = document.querySelector('[data-bar="' + m + '"]');
+    if (pctEl) pctEl.textContent = mpct + '%';
+    if (barEl) barEl.style.width = mpct + '%';
+    const monthEl = document.querySelector('.month[data-month="' + m + '"]');
+    if (monthEl) {
+      monthEl.classList.toggle('done', mpct === 100);
+    }
+    if (mpct === 100) monthsDone++;
+  }
+  document.getElementById('kpi-tools').textContent = Math.min(monthsDone, 4) + '/4';
+
+  let activeMonth = 6;
+  for (let m = 1; m <= 6; m++) {
+    const boxes = getMonthTasks(m);
+    const done = boxes.filter(b => b.checked).length;
+    if (boxes.length && done < boxes.length) { activeMonth = m; break; }
+  }
+  document.getElementById('kpi-month').textContent = 'Bulan ' + activeMonth;
+
+  document.querySelectorAll('.station').forEach(st => {
+    const m = parseInt(st.dataset.m);
+    const boxes = getMonthTasks(m);
+    const done = boxes.filter(b => b.checked).length;
+    st.classList.toggle('done', boxes.length > 0 && done === boxes.length);
+    st.classList.toggle('active', m === activeMonth);
+  });
+  document.getElementById('track-fill').style.width = ((activeMonth - 1) / 5 * 100) + '%';
+}
+
+document.querySelectorAll('.task input[type=checkbox]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    state[cb.id] = cb.checked;
+    cb.closest('.task').classList.toggle('checked', cb.checked);
+    render();
+    saveState();
+  });
+});
+
+document.querySelectorAll('.month-head').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const m = btn.dataset.toggle;
+    const monthEl = document.querySelector('.month[data-month="' + m + '"]');
+    const body = monthEl.querySelector('.month-body');
+    const isOpen = monthEl.classList.contains('open');
+    document.querySelectorAll('.month').forEach(el => {
+      el.classList.remove('open');
+      el.querySelector('.month-body').style.maxHeight = null;
+    });
+    if (!isOpen) {
+      monthEl.classList.add('open');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+});
+
+document.querySelectorAll('.station').forEach(st => {
+  st.addEventListener('click', () => {
+    const m = st.dataset.m;
+    const monthEl = document.querySelector('.month[data-month="' + m + '"]');
+    document.querySelectorAll('.month').forEach(el => {
+      el.classList.remove('open');
+      el.querySelector('.month-body').style.maxHeight = null;
+    });
+    monthEl.classList.add('open');
+    const body = monthEl.querySelector('.month-body');
+    body.style.maxHeight = body.scrollHeight + 'px';
+    monthEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+document.getElementById('reset-btn').addEventListener('click', async () => {
+  if (!confirm('Yakin mau reset semua progres? Ini tidak bisa dibatalkan.')) return;
+  state = {};
+  document.querySelectorAll('.task input[type=checkbox]').forEach(cb => {
+    cb.checked = false;
+    cb.closest('.task').classList.remove('checked');
+  });
+  render();
+  await saveState();
+});
+
+window.addEventListener('load', () => {
+  loadState().then(() => {
+    const m1 = document.querySelector('.month[data-month="1"]');
+    if (m1) {
+      m1.classList.add('open');
+      const body = m1.querySelector('.month-body');
+      if (body) body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+});
+</script>
+</body>
+</html>
